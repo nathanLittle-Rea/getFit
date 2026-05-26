@@ -10,7 +10,7 @@ app.secret_key = os.urandom(24)
 EXERCISES_FILE = os.path.join(os.path.dirname(__file__), "exercises.json")
 
 def load_exercises():
-    with open(EXERCISES_FILE) as f:
+    with open(EXERCISES_FILE, encoding="utf-8") as f:
         return json.load(f)
 
 def get_session_state():
