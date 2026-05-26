@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "Neck Rolls",
+    "category": "stretch",
+    "description": "Slowly roll your head in a full circle, 5 times each direction. Keep shoulders relaxed.",
+    "duration_note": "5 slow circles each side",
+    "icon": "🔄"
+  },
+  {
+    "id": 2,
+    "name": "Shoulder Shrugs",
+    "category": "stretch",
+    "description": "Raise both shoulders up to your ears, hold for 3 seconds, then release. Repeat continuously.",
+    "duration_note": "10–15 reps",
+    "icon": "🤷"
+  },
+  {
+    "id": 3,
+    "name": "Standing Calf Raises",
+    "category": "strength",
+    "description": "Stand with feet hip-width apart. Rise up on your toes, hold 2 seconds, lower slowly. Use a wall for balance if needed.",
+    "duration_note": "3 sets of 15 reps",
+    "icon": "🦵"
+  },
+  {
+    "id": 4,
+    "name": "Bodyweight Squats",
+    "category": "strength",
+    "description": "Feet shoulder-width apart, toes slightly out. Lower until thighs are parallel to the floor, then stand back up.",
+    "duration_note": "3 sets of 10 reps",
+    "icon": "🏋️"
+  },
+  {
+    "id": 5,
+    "name": "Wall Push-Ups",
+    "category": "strength",
+    "description": "Place hands on the wall at shoulder height. Lean in and push back. Great upper body activation without getting on the floor.",
+    "duration_note": "3 sets of 12 reps",
+    "icon": "💪"
+  },
+  {
+    "id": 6,
+    "name": "Desk Hip Flexor Stretch",
+    "category": "stretch",
+    "description": "Step one foot back into a lunge, lower your back knee toward the floor, and lean forward slightly. Hold each side.",
+    "duration_note": "30 seconds each side",
+    "icon": "🧘"
+  },
+  {
+    "id": 7,
+    "name": "March in Place",
+    "category": "cardio",
+    "description": "Lift your knees high and pump your arms. Keep a brisk pace — get your heart rate up a little.",
+    "duration_note": "Full 5 minutes",
+    "icon": "🚶"
+  },
+  {
+    "id": 8,
+    "name": "Torso Twists",
+    "category": "stretch",
+    "description": "Sit or stand with feet shoulder-width apart. Rotate your torso left and right, letting your arms swing naturally.",
+    "duration_note": "20 twists each side",
+    "icon": "🌀"
+  },
+  {
+    "id": 9,
+    "name": "Seated Leg Extensions",
+    "category": "strength",
+    "description": "Sit upright in your chair. Extend one leg straight out, hold 3 seconds, lower slowly. Alternate legs.",
+    "duration_note": "3 sets of 12 each leg",
+    "icon": "🦶"
+  },
+  {
+    "id": 10,
+    "name": "Wrist & Finger Stretches",
+    "category": "stretch",
+    "description": "Extend one arm, pull fingers back gently with the other hand. Then press fingers downward. Switch hands. Great for keyboard fatigue.",
+    "duration_note": "30 seconds each position per hand",
+    "icon": "🤲"
+  },
+  {
+    "id": 11,
+    "name": "Standing Side Stretch",
+    "category": "stretch",
+    "description": "Stand tall, raise one arm overhead and lean to the opposite side. Feel the stretch along your ribs. Switch sides.",
+    "duration_note": "30 seconds each side, repeat 3x",
+    "icon": "🙆"
+  },
+  {
+    "id": 12,
+    "name": "Stair Climbing",
+    "category": "cardio",
+    "description": "Find a staircase and walk up and down continuously. If no stairs, step up and down on a single step.",
+    "duration_note": "Full 5 minutes",
+    "icon": "🪜"
+  },
+  {
+    "id": 13,
+    "name": "Chair Dips",
+    "category": "strength",
+    "description": "Hands on the edge of a sturdy chair, feet out in front. Lower yourself by bending elbows, then push back up.",
+    "duration_note": "3 sets of 10 reps",
+    "icon": "🪑"
+  },
+  {
+    "id": 14,
+    "name": "Eye Rest & Focus",
+    "category": "wellness",
+    "description": "Look away from your screen at something 20 feet away for 20 seconds. Then close your eyes and gently massage your temples.",
+    "duration_note": "Repeat 5–6 times",
+    "icon": "👁️"
+  },
+  {
+    "id": 15,
+    "name": "Deep Breathing",
+    "category": "wellness",
+    "description": "Inhale slowly for 4 counts, hold for 4, exhale for 6. This activates your parasympathetic nervous system and reduces stress.",
+    "duration_note": "10 breath cycles",
+    "icon": "🌬️"
+  }
+]
