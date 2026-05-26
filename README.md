@@ -17,7 +17,18 @@ A lightweight Flask web app that keeps you moving throughout the day. Every 30 m
 
 **Requirements:** Python 3.8+
 
+### Mac / Linux
+
 ```bash
+git clone https://github.com/nathanLittle-Rea/getFit.git
+cd getFit
+pip install -r requirements.txt
+python3 app.py
+```
+
+### Windows
+
+```cmd
 git clone https://github.com/nathanLittle-Rea/getFit.git
 cd getFit
 pip install -r requirements.txt
