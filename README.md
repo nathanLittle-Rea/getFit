@@ -20,7 +20,7 @@ A lightweight Flask web app that keeps you moving throughout the day. Every 30 m
 ```bash
 git clone https://github.com/nathanLittle-Rea/getFit.git
 cd getFit
-pip install flask
+pip install -r requirements.txt
 python app.py
 ```
 
