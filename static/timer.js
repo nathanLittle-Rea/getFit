@@ -9,6 +9,10 @@ let paused       = false;
 let exerciseData = null;
 let notifGranted = false;
 
+let exSecsLeft  = 0;
+let exDone      = false;
+let exInterval  = null;
+
 // ── DOM refs ──────────────────────────────────────────────
 const timerLabel    = document.getElementById("timerLabel");
 const timerSublabel = document.getElementById("timerSublabel");
@@ -35,6 +39,10 @@ const resetBtn      = document.getElementById("resetBtn");
 const historyList   = document.getElementById("historyList");
 const historyEmpty  = document.getElementById("historyEmpty");
 const streakBadge   = document.getElementById("streakBadge");
+
+const exTimerRow    = document.getElementById("exTimerRow");
+const exTimerLabel  = document.getElementById("exTimerLabel");
+const exTimerStatus = document.getElementById("exTimerStatus");
 
 const notifDot      = document.getElementById("notifDot");
 const notifText     = document.getElementById("notifText");
@@ -82,6 +90,8 @@ function tick() {
     if (phase === "rest") enterBreak();
     // break expiry: user should click done, but auto-end if they ignore
     else autoEndBreak();
+  } else if (phase === "rest" && secondsLeft === 5 * 60) {
+    notify("Break in 5 minutes", `Up next: ${exerciseData?.exercise?.name ?? "an exercise"}`);
   }
 }
 
@@ -121,11 +131,14 @@ function enterBreak() {
   phase       = "break";
   secondsLeft = BREAK_SECS;
   renderTimer();
+  chimeBreakStart();
   notify("Time to move!", `Your exercise: ${exerciseData?.exercise?.name ?? "Let's go!"}`);
+  startExerciseTimer(exerciseData?.exercise?.duration_seconds ?? 60);
 }
 
 async function autoEndBreak() {
   // silently complete and move to rest without marking done
+  stopExerciseTimer();
   phase       = "rest";
   secondsLeft = REST_SECS;
   renderTimer();
@@ -140,6 +153,8 @@ async function completeBreak() {
   const res  = await fetch("/api/complete_break", { method: "POST" });
   const data = await res.json();
 
+  stopExerciseTimer();
+
   exerciseData = data;
   renderExercise(data.next_exercise, data.repeat_count);
   await refreshHistory();
@@ -148,6 +163,7 @@ async function completeBreak() {
   secondsLeft = REST_SECS;
   renderTimer();
 
+  chimeBreakDone();
   notify("Great job!", `${data.total_breaks} break${data.total_breaks !== 1 ? "s" : ""} completed today 🎉`);
 }
 
@@ -156,6 +172,9 @@ async function skipExercise() {
   const data = await res.json();
   exerciseData = { exercise: data.exercise, repeat_count: data.repeat_count };
   renderExercise(data.exercise, data.repeat_count);
+  if (phase === "break") {
+    startExerciseTimer(data.exercise.duration_seconds ?? 60);
+  }
 }
 
 // ── Render helpers ────────────────────────────────────────
@@ -205,6 +224,97 @@ function renderHistory(breaks, total) {
   });
 }
 
+// ── Audio cues ────────────────────────────────────────────
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playTone(freq, startTime, duration, gainPeak = 0.3) {
+  const ctx  = getAudioCtx();
+  const osc  = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.type      = "sine";
+  osc.frequency.setValueAtTime(freq, startTime);
+
+  gain.gain.setValueAtTime(0, startTime);
+  gain.gain.linearRampToValueAtTime(gainPeak, startTime + 0.01);
+  gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+  osc.start(startTime);
+  osc.stop(startTime + duration);
+}
+
+// Two ascending tones — break is starting
+function chimeBreakStart() {
+  const ctx = getAudioCtx();
+  const t   = ctx.currentTime;
+  playTone(523, t,        0.35);  // C5
+  playTone(784, t + 0.2,  0.5);   // G5
+}
+
+// Three ascending tones — break complete
+function chimeBreakDone() {
+  const ctx = getAudioCtx();
+  const t   = ctx.currentTime;
+  playTone(523, t,        0.25);  // C5
+  playTone(659, t + 0.18, 0.25);  // E5
+  playTone(784, t + 0.36, 0.5);   // G5
+}
+
+// Two descending tones — exercise timer done
+function chimeExerciseDone() {
+  const ctx = getAudioCtx();
+  const t   = ctx.currentTime;
+  playTone(784, t,        0.25);  // G5
+  playTone(523, t + 0.2,  0.45); // C5
+}
+
+// ── Exercise countdown ────────────────────────────────────
+function startExerciseTimer(seconds) {
+  stopExerciseTimer();
+  exSecsLeft = seconds;
+  exDone     = false;
+  renderExerciseTimer();
+  exTimerRow.classList.remove("hidden");
+  exInterval = setInterval(tickExercise, 1000);
+}
+
+function stopExerciseTimer() {
+  clearInterval(exInterval);
+  exInterval = null;
+  exTimerRow.classList.add("hidden");
+}
+
+function tickExercise() {
+  exSecsLeft = Math.max(0, exSecsLeft - 1);
+  renderExerciseTimer();
+  if (exSecsLeft === 0 && !exDone) {
+    exDone = true;
+    chimeExerciseDone();
+  }
+}
+
+function renderExerciseTimer() {
+  if (exDone && exSecsLeft === 0) {
+    exTimerLabel.textContent  = "Done";
+    exTimerLabel.className    = "ex-timer-clock done";
+    exTimerStatus.textContent = "rest up";
+  } else {
+    const m = String(Math.floor(exSecsLeft / 60)).padStart(2, "0");
+    const s = String(exSecsLeft % 60).padStart(2, "0");
+    exTimerLabel.textContent  = `${m}:${s}`;
+    exTimerLabel.className    = "ex-timer-clock";
+    exTimerStatus.textContent = "exercise timer";
+  }
+}
+
 // ── Notifications ─────────────────────────────────────────
 function notify(title, body) {
   if (!notifGranted) return;
@@ -229,6 +339,7 @@ function togglePause() {
 }
 
 function resetTimer() {
+  stopExerciseTimer();
   paused      = false;
   phase       = "rest";
   secondsLeft = REST_SECS;

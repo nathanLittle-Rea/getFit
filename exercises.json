@@ -5,6 +5,7 @@
     "category": "stretch",
     "description": "Slowly roll your head in a full circle, 5 times each direction. Keep shoulders relaxed.",
     "duration_note": "5 slow circles each side",
+    "duration_seconds": 60,
     "icon": "🔄"
   },
   {
@@ -13,6 +14,7 @@
     "category": "stretch",
     "description": "Raise both shoulders up to your ears, hold for 3 seconds, then release. Repeat continuously.",
     "duration_note": "10–15 reps",
+    "duration_seconds": 45,
     "icon": "🤷"
   },
   {
@@ -21,6 +23,7 @@
     "category": "strength",
     "description": "Stand with feet hip-width apart. Rise up on your toes, hold 2 seconds, lower slowly. Use a wall for balance if needed.",
     "duration_note": "3 sets of 15 reps",
+    "duration_seconds": 90,
     "icon": "🦵"
   },
   {
@@ -29,6 +32,7 @@
     "category": "strength",
     "description": "Feet shoulder-width apart, toes slightly out. Lower until thighs are parallel to the floor, then stand back up.",
     "duration_note": "3 sets of 10 reps",
+    "duration_seconds": 90,
     "icon": "🏋️"
   },
   {
@@ -37,6 +41,7 @@
     "category": "strength",
     "description": "Place hands on the wall at shoulder height. Lean in and push back. Great upper body activation without getting on the floor.",
     "duration_note": "3 sets of 12 reps",
+    "duration_seconds": 90,
     "icon": "💪"
   },
   {
@@ -45,6 +50,7 @@
     "category": "stretch",
     "description": "Step one foot back into a lunge, lower your back knee toward the floor, and lean forward slightly. Hold each side.",
     "duration_note": "30 seconds each side",
+    "duration_seconds": 60,
     "icon": "🧘"
   },
   {
@@ -53,6 +59,7 @@
     "category": "cardio",
     "description": "Lift your knees high and pump your arms. Keep a brisk pace — get your heart rate up a little.",
     "duration_note": "Full 5 minutes",
+    "duration_seconds": 300,
     "icon": "🚶"
   },
   {
@@ -61,6 +68,7 @@
     "category": "stretch",
     "description": "Sit or stand with feet shoulder-width apart. Rotate your torso left and right, letting your arms swing naturally.",
     "duration_note": "20 twists each side",
+    "duration_seconds": 60,
     "icon": "🌀"
   },
   {
@@ -69,6 +77,7 @@
     "category": "strength",
     "description": "Sit upright in your chair. Extend one leg straight out, hold 3 seconds, lower slowly. Alternate legs.",
     "duration_note": "3 sets of 12 each leg",
+    "duration_seconds": 90,
     "icon": "🦶"
   },
   {
@@ -77,6 +86,7 @@
     "category": "stretch",
     "description": "Extend one arm, pull fingers back gently with the other hand. Then press fingers downward. Switch hands. Great for keyboard fatigue.",
     "duration_note": "30 seconds each position per hand",
+    "duration_seconds": 120,
     "icon": "🤲"
   },
   {
@@ -85,6 +95,7 @@
     "category": "stretch",
     "description": "Stand tall, raise one arm overhead and lean to the opposite side. Feel the stretch along your ribs. Switch sides.",
     "duration_note": "30 seconds each side, repeat 3x",
+    "duration_seconds": 180,
     "icon": "🙆"
   },
   {
@@ -93,6 +104,7 @@
     "category": "cardio",
     "description": "Find a staircase and walk up and down continuously. If no stairs, step up and down on a single step.",
     "duration_note": "Full 5 minutes",
+    "duration_seconds": 300,
     "icon": "🪜"
   },
   {
@@ -101,6 +113,7 @@
     "category": "strength",
     "description": "Hands on the edge of a sturdy chair, feet out in front. Lower yourself by bending elbows, then push back up.",
     "duration_note": "3 sets of 10 reps",
+    "duration_seconds": 90,
     "icon": "🪑"
   },
   {
@@ -109,6 +122,7 @@
     "category": "wellness",
     "description": "Look away from your screen at something 20 feet away for 20 seconds. Then close your eyes and gently massage your temples.",
     "duration_note": "Repeat 5–6 times",
+    "duration_seconds": 120,
     "icon": "👁️"
   },
   {
@@ -117,6 +131,7 @@
     "category": "wellness",
     "description": "Inhale slowly for 4 counts, hold for 4, exhale for 6. This activates your parasympathetic nervous system and reduces stress.",
     "duration_note": "10 breath cycles",
+    "duration_seconds": 140,
     "icon": "🌬️"
   }
 ]
