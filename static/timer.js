@@ -2,7 +2,7 @@ const REST_SECS  = 30 * 60;   // 30 minutes
 const BREAK_SECS =  5 * 60;   // 5 minutes
 const CIRCUMFERENCE = 2 * Math.PI * 80;  // r=80 on the SVG ring
 
-let phase        = "rest";    // "rest" | "break"
+let phase        = "idle";    // "idle" | "rest" | "break"
 let secondsLeft  = REST_SECS;
 let tickInterval = null;
 let paused       = false;
@@ -51,7 +51,7 @@ const notifText     = document.getElementById("notifText");
 async function init() {
   await requestNotifPermission();
   await fetchState();
-  startTick();
+  renderTimer();  // show initial state without starting the tick
 }
 
 async function requestNotifPermission() {
@@ -107,7 +107,15 @@ function renderTimer() {
   const s = String(secondsLeft % 60).padStart(2, "0");
   timerLabel.textContent = `${m}:${s}`;
 
-  if (phase === "rest") {
+  if (phase === "idle") {
+    timerSublabel.textContent = "take a break to begin";
+    phaseLabel.textContent    = "Ready";
+    phaseLabel.className      = "phase-label rest";
+    mainBtn.textContent       = "Start Break Now";
+    mainBtn.className         = "btn btn-primary";
+    breakBanner.classList.remove("visible");
+    exerciseBlock.classList.add("dimmed");
+  } else if (phase === "rest") {
     timerSublabel.textContent = "until next break";
     phaseLabel.textContent    = "Rest";
     phaseLabel.className      = "phase-label rest";
@@ -142,6 +150,7 @@ async function autoEndBreak() {
   phase       = "rest";
   secondsLeft = REST_SECS;
   renderTimer();
+  startTick();
 }
 
 async function completeBreak() {
@@ -162,6 +171,7 @@ async function completeBreak() {
   phase       = "rest";
   secondsLeft = REST_SECS;
   renderTimer();
+  startTick();
 
   chimeBreakDone();
   notify("Great job!", `${data.total_breaks} break${data.total_breaks !== 1 ? "s" : ""} completed today 🎉`);
@@ -340,12 +350,14 @@ function togglePause() {
 
 function resetTimer() {
   stopExerciseTimer();
+  clearInterval(tickInterval);
+  tickInterval = null;
   paused      = false;
-  phase       = "rest";
+  phase       = "idle";
   secondsLeft = REST_SECS;
   pauseBtn.textContent = "Pause";
   pauseBtn.classList.remove("btn-paused");
-  startTick();
+  renderTimer();
 }
 
 // ── Event listeners ───────────────────────────────────────
