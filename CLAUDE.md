@@ -2,9 +2,20 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Running the App
+## Structure
+
+```
+getFit/
+  movr/          ← movement break timer app (Movr)
+  core_circuit.md
+  CLAUDE.md
+  README.md
+```
+
+## Movr — Running the App
 
 ```bash
+cd movr
 pip install -r requirements.txt
 python app.py
 # Open http://localhost:5050
@@ -12,22 +23,23 @@ python app.py
 
 No build step, no test suite, no linter configured.
 
-## Architecture
+## Movr — Architecture
 
 Two independent state machines that communicate via REST:
 
-**Server (app.py) — exercise rotation state**
+**Server (movr/app.py) — exercise rotation state**
 - Flask session holds the day's exercise order (shuffled on first visit or day rollover), `current_index`, `repeat_count` (0–2), and `completed_breaks` log
 - Each exercise shows for 3 consecutive breaks (`repeat_count >= 3` advances `current_index`)
 - Exercises wrap infinitely; the shuffled `exercise_order` is an index list into `exercises.json`
 - Routes: `GET /api/state`, `POST /api/complete_break`, `POST /api/skip_exercise`, `GET /api/history`
 
-**Client (static/timer.js) — countdown state**
-- Runs entirely in the browser; phase is `"rest"` (30 min) or `"break"` (5 min)
+**Client (movr/static/timer.js) — countdown state**
+- Runs entirely in the browser; phase is `"idle"` (not started), `"rest"` (30 min), or `"break"` (5 min)
+- 30-min rest timer only starts after Done is clicked — page load starts in idle
 - Timer state is local JS variables — a page refresh resets the countdown but not the exercise rotation (that lives in the Flask session)
-- `completeBreak()` doubles as "start break now" (when `phase === "rest"`) and "mark done" (when `phase === "break"`)
+- `completeBreak()` doubles as "start break now" (when `phase !== "break"`) and "mark done" (when `phase === "break"`)
 - Auto-ends break silently if the 5-minute timer expires without user action (no server call)
 
 **Data**
-- `exercises.json` — 15 exercises with `id`, `name`, `category` (stretch/strength/cardio/wellness), `description`, `duration_note`, `icon`
+- `movr/exercises.json` — 15 exercises with `id`, `name`, `category` (stretch/strength/cardio/wellness), `description`, `duration_note`, `duration_seconds`, `icon`
 - Adding exercises: append to `exercises.json`; the rotation logic handles any list length automatically
