@@ -146,12 +146,13 @@ function enterBreak() {
 }
 
 async function autoEndBreak() {
-  // silently complete and move to rest without marking done
+  // silently complete — go to idle so rest timer waits for Done
   stopExerciseTimer();
-  phase       = "rest";
+  clearInterval(tickInterval);
+  tickInterval = null;
+  phase       = "idle";
   secondsLeft = REST_SECS;
   renderTimer();
-  startTick();
 }
 
 async function completeBreak() {
