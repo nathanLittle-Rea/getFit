@@ -1,8 +1,10 @@
-const REST_SECS  = 30 * 60;   // 30 minutes
-const BREAK_SECS =  5 * 60;   // 5 minutes
-const CIRCUMFERENCE = 2 * Math.PI * 80;  // r=80 on the SVG ring
+const REST_SECS           = 30 * 60;
+const BREAK_SECS          =  5 * 60;
+const ADVANCED_BREAK_SECS =  7 * 60;
+const CIRCUIT_STEP_SECS   = 45;
+const CIRCUMFERENCE       = 2 * Math.PI * 80;
 
-let phase        = "rest";    // "rest" | "break"
+let phase        = "rest";
 let secondsLeft  = REST_SECS;
 let tickInterval = null;
 let paused       = false;
@@ -12,6 +14,21 @@ let notifGranted = false;
 let exSecsLeft  = 0;
 let exDone      = false;
 let exInterval  = null;
+
+let mode = localStorage.getItem("movr_mode") || "basic";
+
+// Advanced circuit state
+let circuitExercises = null;  // { upper, lower, core }
+let circuitStep      = 0;     // 0-8
+let circuitDone      = false;
+
+let circuitTimerInterval = null;
+let circuitSecsLeft      = 0;
+let circuitTimerDone     = false;
+
+function breakSecs() {
+  return mode === "advanced" ? ADVANCED_BREAK_SECS : BREAK_SECS;
+}
 
 // ── DOM refs ──────────────────────────────────────────────
 const timerLabel    = document.getElementById("timerLabel");
@@ -27,31 +44,79 @@ const exDesc        = document.getElementById("exDesc");
 const exDuration    = document.getElementById("exDuration");
 const exerciseBlock = document.getElementById("exerciseBlock");
 
-const pip1          = document.getElementById("pip1");
-const pip2          = document.getElementById("pip2");
-const pip3          = document.getElementById("pip3");
+const pip1 = document.getElementById("pip1");
+const pip2 = document.getElementById("pip2");
+const pip3 = document.getElementById("pip3");
 
-const mainBtn       = document.getElementById("mainBtn");
-const skipBtn       = document.getElementById("skipBtn");
-const pauseBtn      = document.getElementById("pauseBtn");
-const resetBtn      = document.getElementById("resetBtn");
+const mainBtn  = document.getElementById("mainBtn");
+const skipBtn  = document.getElementById("skipBtn");
+const pauseBtn = document.getElementById("pauseBtn");
+const resetBtn = document.getElementById("resetBtn");
 
-const historyList   = document.getElementById("historyList");
-const historyEmpty  = document.getElementById("historyEmpty");
-const streakBadge   = document.getElementById("streakBadge");
+const historyList  = document.getElementById("historyList");
+const historyEmpty = document.getElementById("historyEmpty");
+const streakBadge  = document.getElementById("streakBadge");
 
 const exTimerRow    = document.getElementById("exTimerRow");
 const exTimerLabel  = document.getElementById("exTimerLabel");
 const exTimerStatus = document.getElementById("exTimerStatus");
 
-const notifDot      = document.getElementById("notifDot");
-const notifText     = document.getElementById("notifText");
+const notifDot  = document.getElementById("notifDot");
+const notifText = document.getElementById("notifText");
+
+// Mode toggle
+const modeBasicBtn    = document.getElementById("modeBasicBtn");
+const modeAdvancedBtn = document.getElementById("modeAdvancedBtn");
+
+// Circuit elements
+const circuitView  = document.getElementById("circuitView");
+const setLabel     = document.getElementById("setLabel");
+const setPip1      = document.getElementById("setPip1");
+const setPip2      = document.getElementById("setPip2");
+const setPip3      = document.getElementById("setPip3");
+
+const cardUpper = document.getElementById("cardUpper");
+const cardLower = document.getElementById("cardLower");
+const cardCore  = document.getElementById("cardCore");
+
+const upperIcon = document.getElementById("upperIcon");
+const upperName = document.getElementById("upperName");
+const upperDesc = document.getElementById("upperDesc");
+
+const lowerIcon = document.getElementById("lowerIcon");
+const lowerName = document.getElementById("lowerName");
+const lowerDesc = document.getElementById("lowerDesc");
+
+const coreIcon = document.getElementById("coreIcon");
+const coreName = document.getElementById("coreName");
+const coreDesc = document.getElementById("coreDesc");
+
+const exTimerRowAdv    = document.getElementById("exTimerRowAdv");
+const exTimerLabelAdv  = document.getElementById("exTimerLabelAdv");
+const exTimerStatusAdv = document.getElementById("exTimerStatusAdv");
 
 // ── Init ──────────────────────────────────────────────────
 async function init() {
+  applyMode();
   await requestNotifPermission();
   await fetchState();
   startTick();
+}
+
+function applyMode() {
+  if (mode === "advanced") {
+    modeAdvancedBtn.classList.add("active");
+    modeBasicBtn.classList.remove("active");
+    exerciseBlock.style.display = "none";
+    circuitView.classList.remove("hidden");
+    skipBtn.style.display = "none";
+  } else {
+    modeBasicBtn.classList.add("active");
+    modeAdvancedBtn.classList.remove("active");
+    exerciseBlock.style.display = "";
+    circuitView.classList.add("hidden");
+    skipBtn.style.display = "";
+  }
 }
 
 async function requestNotifPermission() {
@@ -62,18 +127,26 @@ async function requestNotifPermission() {
     const perm = await Notification.requestPermission();
     notifGranted = (perm === "granted");
   }
-  notifDot.className  = "notif-dot" + (notifGranted ? " enabled" : "");
+  notifDot.className    = "notif-dot" + (notifGranted ? " enabled" : "");
   notifText.textContent = notifGranted
     ? "Browser notifications on"
     : "Enable notifications for break alerts";
 }
 
 async function fetchState() {
-  const res  = await fetch("/api/state");
-  const data = await res.json();
-  exerciseData = data;
-  renderExercise(data.exercise, data.repeat_count);
-  renderHistory(data.completed_breaks, data.total_breaks);
+  if (mode === "advanced") {
+    const res  = await fetch("/api/advanced/state");
+    const data = await res.json();
+    circuitExercises = { upper: data.upper, lower: data.lower, core: data.core };
+    renderCircuitRest();
+    renderHistory(data.completed_circuit_log, data.completed_circuits, true);
+  } else {
+    const res  = await fetch("/api/state");
+    const data = await res.json();
+    exerciseData = data;
+    renderExercise(data.exercise, data.repeat_count);
+    renderHistory(data.completed_breaks, data.total_breaks, false);
+  }
 }
 
 // ── Tick ─────────────────────────────────────────────────
@@ -88,15 +161,19 @@ function tick() {
   renderTimer();
   if (secondsLeft === 0) {
     if (phase === "rest") enterBreak();
-    // break expiry: user should click done, but auto-end if they ignore
     else autoEndBreak();
   } else if (phase === "rest" && secondsLeft === 5 * 60) {
-    notify("Break in 5 minutes", `Up next: ${exerciseData?.exercise?.name ?? "an exercise"}`);
+    if (mode === "advanced") {
+      notify("Break in 5 minutes",
+        `Circuit: ${circuitExercises?.upper?.name ?? "..."}, ${circuitExercises?.lower?.name ?? "..."}, ${circuitExercises?.core?.name ?? "..."}`);
+    } else {
+      notify("Break in 5 minutes", `Up next: ${exerciseData?.exercise?.name ?? "an exercise"}`);
+    }
   }
 }
 
 function renderTimer() {
-  const total  = phase === "rest" ? REST_SECS : BREAK_SECS;
+  const total  = phase === "rest" ? REST_SECS : breakSecs();
   const frac   = secondsLeft / total;
   const offset = CIRCUMFERENCE * (1 - frac);
 
@@ -114,7 +191,7 @@ function renderTimer() {
     mainBtn.textContent       = "Start Break Now";
     mainBtn.className         = "btn btn-primary";
     breakBanner.classList.remove("visible");
-    exerciseBlock.classList.add("dimmed");
+    if (mode === "basic") exerciseBlock.classList.add("dimmed");
   } else {
     timerSublabel.textContent = "remaining";
     phaseLabel.textContent    = "Move! Break Active";
@@ -122,24 +199,31 @@ function renderTimer() {
     mainBtn.textContent       = "Done — Mark Complete";
     mainBtn.className         = "btn btn-primary break-mode";
     breakBanner.classList.add("visible");
-    exerciseBlock.classList.remove("dimmed");
+    if (mode === "basic") exerciseBlock.classList.remove("dimmed");
   }
 }
 
 // ── Phase transitions ─────────────────────────────────────
 function enterBreak() {
   phase       = "break";
-  secondsLeft = BREAK_SECS;
+  secondsLeft = breakSecs();
   renderTimer();
   startTick();
   chimeBreakStart();
-  notify("Time to move!", `Your exercise: ${exerciseData?.exercise?.name ?? "Let's go!"}`);
-  startExerciseTimer(exerciseData?.exercise?.duration_seconds ?? 60);
+
+  if (mode === "advanced") {
+    notify("Time to move!",
+      `Circuit: ${circuitExercises?.upper?.name ?? "..."}, ${circuitExercises?.lower?.name ?? "..."}, ${circuitExercises?.core?.name ?? "..."}`);
+    startCircuit();
+  } else {
+    notify("Time to move!", `Your exercise: ${exerciseData?.exercise?.name ?? "Let's go!"}`);
+    startExerciseTimer(exerciseData?.exercise?.duration_seconds ?? 60);
+  }
 }
 
 async function autoEndBreak() {
-  // Break time up — freeze at 0:00 and wait for user to click Done
   stopExerciseTimer();
+  stopCircuitStep();
   clearInterval(tickInterval);
   tickInterval = null;
   secondsLeft  = 0;
@@ -148,29 +232,44 @@ async function autoEndBreak() {
 
 async function completeBreak() {
   if (phase !== "break") {
-    // Manually start a break
     enterBreak();
     return;
   }
-  const res  = await fetch("/api/complete_break", { method: "POST" });
-  const data = await res.json();
 
-  stopExerciseTimer();
+  if (mode === "advanced") {
+    stopCircuitStep();
+    const res  = await fetch("/api/advanced/complete", { method: "POST" });
+    const data = await res.json();
 
-  exerciseData = data;
-  renderExercise(data.next_exercise, data.repeat_count);
-  await refreshHistory();
+    circuitExercises = { upper: data.next_upper, lower: data.next_lower, core: data.next_core };
+    circuitStep = 0;
+    circuitDone = false;
+    renderCircuitRest();
+    await refreshHistoryAdv();
+
+    chimeBreakDone();
+    notify("Great job!", `${data.completed_circuits} circuit${data.completed_circuits !== 1 ? "s" : ""} today`);
+  } else {
+    stopExerciseTimer();
+    const res  = await fetch("/api/complete_break", { method: "POST" });
+    const data = await res.json();
+
+    exerciseData = data;
+    renderExercise(data.next_exercise, data.repeat_count);
+    await refreshHistory();
+
+    chimeBreakDone();
+    notify("Great job!", `${data.total_breaks} break${data.total_breaks !== 1 ? "s" : ""} today`);
+  }
 
   phase       = "rest";
   secondsLeft = REST_SECS;
   renderTimer();
   startTick();
-
-  chimeBreakDone();
-  notify("Great job!", `${data.total_breaks} break${data.total_breaks !== 1 ? "s" : ""} completed today 🎉`);
 }
 
 async function skipExercise() {
+  if (mode === "advanced") return;
   const res  = await fetch("/api/skip_exercise", { method: "POST" });
   const data = await res.json();
   exerciseData = { exercise: data.exercise, repeat_count: data.repeat_count };
@@ -180,106 +279,130 @@ async function skipExercise() {
   }
 }
 
-// ── Render helpers ────────────────────────────────────────
-function renderExercise(ex, repeatCount) {
-  if (!ex) return;
-  exIcon.textContent     = ex.icon;
-  exName.textContent     = ex.name;
-  exCategory.textContent = ex.category;
-  exDesc.textContent     = ex.description;
-  exDuration.textContent = ex.duration_note;
-
-  const pips = [pip1, pip2, pip3];
-  pips.forEach((p, i) => {
-    p.classList.toggle("filled", i < repeatCount);
-  });
+// ── Circuit logic ─────────────────────────────────────────
+function startCircuit() {
+  circuitStep = 0;
+  circuitDone = false;
+  exTimerRowAdv.classList.remove("hidden");
+  renderSetPips();
+  startCircuitStep();
 }
 
-async function refreshHistory() {
-  const res  = await fetch("/api/history");
-  const data = await res.json();
-  renderHistory(data.completed_breaks, data.total_breaks);
+function startCircuitStep() {
+  highlightCircuitStep(circuitStep);
+  renderSetPips();
+  const ex = exerciseForStep(circuitStep);
+  startCircuitTimer(ex?.duration_seconds ?? CIRCUIT_STEP_SECS);
 }
 
-function renderHistory(breaks, total) {
-  streakBadge.textContent = `${total} break${total !== 1 ? "s" : ""} today`;
+function exerciseForStep(step) {
+  const i = step % 3;
+  if (i === 0) return circuitExercises.upper;
+  if (i === 1) return circuitExercises.lower;
+  return circuitExercises.core;
+}
 
-  if (!breaks || breaks.length === 0) {
-    historyEmpty.style.display  = "block";
-    historyList.style.display   = "none";
+function advanceCircuitStep() {
+  circuitStep++;
+  if (circuitStep >= 9) {
+    circuitDone = true;
+    stopCircuitStep();
+    exTimerRowAdv.classList.add("hidden");
+    [cardUpper, cardLower, cardCore].forEach(c => {
+      c.classList.remove("active", "dimmed");
+      c.classList.add("done");
+    });
+    renderSetPips();
+    chimeBreakDone();
     return;
   }
+  startCircuitStep();
+}
 
-  historyEmpty.style.display  = "none";
-  historyList.style.display   = "flex";
-  historyList.innerHTML       = "";
+function highlightCircuitStep(step) {
+  const stepInSet = step % 3;
+  const setNum    = Math.floor(step / 3);
 
-  // Show most recent first
-  [...breaks].reverse().forEach(b => {
-    const item = document.createElement("div");
-    item.className = "history-item";
-    item.innerHTML = `
-      <span class="history-time">${b.time}</span>
-      <span class="history-icon">${b.icon}</span>
-      <span class="history-name">${b.exercise}</span>
-    `;
-    historyList.appendChild(item);
+  setLabel.textContent = `Set ${setNum + 1} of 3`;
+
+  const cards = [cardUpper, cardLower, cardCore];
+  cards.forEach((c, i) => {
+    c.classList.remove("active", "dimmed", "done");
+    if (i === stepInSet) {
+      c.classList.add("active");
+    } else if (i < stepInSet) {
+      c.classList.add("done");
+    } else {
+      c.classList.add("dimmed");
+    }
   });
 }
 
-// ── Audio cues ────────────────────────────────────────────
-let audioCtx = null;
-
-function getAudioCtx() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
+function renderSetPips() {
+  const completed = circuitDone ? 3 : Math.floor(circuitStep / 3);
+  [setPip1, setPip2, setPip3].forEach((p, i) => {
+    p.classList.toggle("filled", i < completed);
+  });
 }
 
-function playTone(freq, startTime, duration, gainPeak = 0.3) {
-  const ctx  = getAudioCtx();
-  const osc  = ctx.createOscillator();
-  const gain = ctx.createGain();
+function renderCircuitRest() {
+  if (!circuitExercises) return;
 
-  osc.connect(gain);
-  gain.connect(ctx.destination);
+  upperIcon.textContent = circuitExercises.upper.icon;
+  upperName.textContent = circuitExercises.upper.name;
+  upperDesc.textContent = circuitExercises.upper.description;
 
-  osc.type      = "sine";
-  osc.frequency.setValueAtTime(freq, startTime);
+  lowerIcon.textContent = circuitExercises.lower.icon;
+  lowerName.textContent = circuitExercises.lower.name;
+  lowerDesc.textContent = circuitExercises.lower.description;
 
-  gain.gain.setValueAtTime(0, startTime);
-  gain.gain.linearRampToValueAtTime(gainPeak, startTime + 0.01);
-  gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+  coreIcon.textContent = circuitExercises.core.icon;
+  coreName.textContent = circuitExercises.core.name;
+  coreDesc.textContent = circuitExercises.core.description;
 
-  osc.start(startTime);
-  osc.stop(startTime + duration);
+  setLabel.textContent = "Up Next";
+  [cardUpper, cardLower, cardCore].forEach(c => {
+    c.className = "circuit-card dimmed";
+  });
+  [setPip1, setPip2, setPip3].forEach(p => p.classList.remove("filled"));
+  exTimerRowAdv.classList.add("hidden");
 }
 
-// Two ascending tones — break is starting
-function chimeBreakStart() {
-  const ctx = getAudioCtx();
-  const t   = ctx.currentTime;
-  playTone(523, t,        0.35);  // C5
-  playTone(784, t + 0.2,  0.5);   // G5
+// ── Circuit timer ─────────────────────────────────────────
+function startCircuitTimer(seconds) {
+  clearInterval(circuitTimerInterval);
+  circuitSecsLeft  = seconds;
+  circuitTimerDone = false;
+  renderCircuitTimer();
+  circuitTimerInterval = setInterval(tickCircuitTimer, 1000);
 }
 
-// Three ascending tones — break complete
-function chimeBreakDone() {
-  const ctx = getAudioCtx();
-  const t   = ctx.currentTime;
-  playTone(523, t,        0.25);  // C5
-  playTone(659, t + 0.18, 0.25);  // E5
-  playTone(784, t + 0.36, 0.5);   // G5
+function stopCircuitStep() {
+  clearInterval(circuitTimerInterval);
+  circuitTimerInterval = null;
 }
 
-// Two descending tones — exercise timer done
-function chimeExerciseDone() {
-  const ctx = getAudioCtx();
-  const t   = ctx.currentTime;
-  playTone(784, t,        0.25);  // G5
-  playTone(523, t + 0.2,  0.45); // C5
+function tickCircuitTimer() {
+  circuitSecsLeft = Math.max(0, circuitSecsLeft - 1);
+  renderCircuitTimer();
+  if (circuitSecsLeft === 0 && !circuitTimerDone) {
+    circuitTimerDone = true;
+    chimeExerciseDone();
+    advanceCircuitStep();
+  }
 }
 
-// ── Exercise countdown ────────────────────────────────────
+function renderCircuitTimer() {
+  const m = String(Math.floor(circuitSecsLeft / 60)).padStart(2, "0");
+  const s = String(circuitSecsLeft % 60).padStart(2, "0");
+  exTimerLabelAdv.textContent  = `${m}:${s}`;
+  exTimerLabelAdv.className    = "ex-timer-clock";
+  const setNum = Math.floor(circuitStep / 3) + 1;
+  const exNum  = (circuitStep % 3) + 1;
+  exTimerStatusAdv.textContent = `set ${setNum} · exercise ${exNum}/3`;
+}
+
+// ── Basic exercise countdown ──────────────────────────────
 function startExerciseTimer(seconds) {
   stopExerciseTimer();
   exSecsLeft = seconds;
@@ -318,24 +441,133 @@ function renderExerciseTimer() {
   }
 }
 
+// ── Render helpers ────────────────────────────────────────
+function renderExercise(ex, repeatCount) {
+  if (!ex) return;
+  exIcon.textContent     = ex.icon;
+  exName.textContent     = ex.name;
+  exCategory.textContent = ex.category;
+  exDesc.textContent     = ex.description;
+  exDuration.textContent = ex.duration_note;
+
+  [pip1, pip2, pip3].forEach((p, i) => {
+    p.classList.toggle("filled", i < repeatCount);
+  });
+}
+
+async function refreshHistory() {
+  const res  = await fetch("/api/history");
+  const data = await res.json();
+  renderHistory(data.completed_breaks, data.total_breaks, false);
+}
+
+async function refreshHistoryAdv() {
+  const res  = await fetch("/api/advanced/state");
+  const data = await res.json();
+  renderHistory(data.completed_circuit_log, data.completed_circuits, true);
+}
+
+function renderHistory(breaks, total, isAdvanced) {
+  streakBadge.textContent = isAdvanced
+    ? `${total} circuit${total !== 1 ? "s" : ""} today`
+    : `${total} break${total !== 1 ? "s" : ""} today`;
+
+  if (!breaks || breaks.length === 0) {
+    historyEmpty.style.display = "block";
+    historyList.style.display  = "none";
+    return;
+  }
+
+  historyEmpty.style.display = "none";
+  historyList.style.display  = "flex";
+  historyList.innerHTML      = "";
+
+  [...breaks].reverse().forEach(b => {
+    const item = document.createElement("div");
+    item.className = "history-item";
+    if (isAdvanced) {
+      item.innerHTML = `
+        <span class="history-time">${b.time}</span>
+        <span class="history-icon">${b.icon}</span>
+        <span class="history-name">${b.upper} · ${b.lower} · ${b.core}</span>
+      `;
+    } else {
+      item.innerHTML = `
+        <span class="history-time">${b.time}</span>
+        <span class="history-icon">${b.icon}</span>
+        <span class="history-name">${b.exercise}</span>
+      `;
+    }
+    historyList.appendChild(item);
+  });
+}
+
+// ── Audio cues ────────────────────────────────────────────
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playTone(freq, startTime, duration, gainPeak = 0.3) {
+  const ctx  = getAudioCtx();
+  const osc  = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(freq, startTime);
+  gain.gain.setValueAtTime(0, startTime);
+  gain.gain.linearRampToValueAtTime(gainPeak, startTime + 0.01);
+  gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+  osc.start(startTime);
+  osc.stop(startTime + duration);
+}
+
+function chimeBreakStart() {
+  const ctx = getAudioCtx();
+  const t   = ctx.currentTime;
+  playTone(523, t,       0.35);
+  playTone(784, t + 0.2, 0.5);
+}
+
+function chimeBreakDone() {
+  const ctx = getAudioCtx();
+  const t   = ctx.currentTime;
+  playTone(523, t,        0.25);
+  playTone(659, t + 0.18, 0.25);
+  playTone(784, t + 0.36, 0.5);
+}
+
+function chimeExerciseDone() {
+  const ctx = getAudioCtx();
+  const t   = ctx.currentTime;
+  playTone(784, t,       0.25);
+  playTone(523, t + 0.2, 0.45);
+}
+
 // ── Notifications ─────────────────────────────────────────
 function notify(title, body) {
   if (!notifGranted) return;
-  try {
-    new Notification(title, { body, icon: "/static/icon.png" });
-  } catch (_) {}
+  try { new Notification(title, { body, icon: "/static/icon.png" }); } catch (_) {}
 }
 
+// ── Controls ──────────────────────────────────────────────
 function togglePause() {
   if (paused) {
     paused = false;
     startTick();
+    if (mode === "advanced" && phase === "break" && !circuitDone && !circuitTimerInterval) {
+      startCircuitTimer(circuitSecsLeft);
+    }
     pauseBtn.textContent = "Pause";
     pauseBtn.classList.remove("btn-paused");
   } else {
     paused = true;
     clearInterval(tickInterval);
     tickInterval = null;
+    if (mode === "advanced") stopCircuitStep();
     pauseBtn.textContent = "Resume";
     pauseBtn.classList.add("btn-paused");
   }
@@ -343,6 +575,11 @@ function togglePause() {
 
 function resetTimer() {
   stopExerciseTimer();
+  stopCircuitStep();
+  circuitStep = 0;
+  circuitDone = false;
+  if (mode === "advanced") renderCircuitRest();
+
   paused      = false;
   phase       = "rest";
   secondsLeft = REST_SECS;
@@ -351,11 +588,34 @@ function resetTimer() {
   startTick();
 }
 
+// ── Mode toggle ───────────────────────────────────────────
+async function switchMode(newMode) {
+  if (newMode === mode) return;
+  mode = newMode;
+  localStorage.setItem("movr_mode", mode);
+
+  stopExerciseTimer();
+  stopCircuitStep();
+  circuitStep = 0;
+  circuitDone = false;
+  paused      = false;
+  phase       = "rest";
+  secondsLeft = REST_SECS;
+  pauseBtn.textContent = "Pause";
+  pauseBtn.classList.remove("btn-paused");
+
+  applyMode();
+  await fetchState();
+  startTick();
+}
+
 // ── Event listeners ───────────────────────────────────────
 mainBtn.addEventListener("click", completeBreak);
 skipBtn.addEventListener("click", skipExercise);
 pauseBtn.addEventListener("click", togglePause);
 resetBtn.addEventListener("click", resetTimer);
+modeBasicBtn.addEventListener("click",    () => switchMode("basic"));
+modeAdvancedBtn.addEventListener("click", () => switchMode("advanced"));
 
 // ── Boot ──────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", init);

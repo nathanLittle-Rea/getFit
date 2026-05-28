@@ -16,8 +16,16 @@
     <div class="streak-badge" id="streakBadge">0 breaks today</div>
   </header>
 
+  <!-- Mode toggle -->
+  <div class="mode-toggle-row">
+    <div class="mode-toggle" id="modeToggle">
+      <button class="mode-btn" id="modeBasicBtn">Basic</button>
+      <button class="mode-btn" id="modeAdvancedBtn">Advanced</button>
+    </div>
+  </div>
+
   <!-- Notification permission row -->
-  <div class="notif-row" style="width:100%;max-width:480px;margin-bottom:12px;">
+  <div class="notif-row">
     <div class="notif-dot" id="notifDot"></div>
     <span id="notifText">Requesting notification permission…</span>
   </div>
@@ -49,7 +57,7 @@
       </div>
     </div>
 
-    <!-- Exercise block -->
+    <!-- ── Basic mode: single exercise block ── -->
     <div class="exercise-block dimmed" id="exerciseBlock">
       <div class="exercise-header">
         <span class="exercise-icon" id="exIcon">⏳</span>
@@ -58,10 +66,10 @@
           <div class="exercise-category" id="exCategory"></div>
         </div>
       </div>
-      <p class="exercise-desc"     id="exDesc"></p>
+      <p class="exercise-desc" id="exDesc"></p>
       <div class="exercise-duration" id="exDuration"></div>
 
-      <!-- Exercise countdown timer (shown during break) -->
+      <!-- Exercise countdown timer -->
       <div class="ex-timer-row hidden" id="exTimerRow">
         <span class="ex-timer-clock" id="exTimerLabel">0:00</span>
         <div class="ex-timer-info">
@@ -79,6 +87,64 @@
         </div>
         <span class="repeat-label" style="margin-left:4px">of 3</span>
       </div>
+    </div>
+
+    <!-- ── Advanced mode: circuit view ── -->
+    <div class="circuit-view hidden" id="circuitView">
+      <div class="circuit-meta">
+        <span class="circuit-set-label" id="setLabel">Up Next</span>
+        <div class="circuit-set-pips">
+          <div class="set-pip" id="setPip1"></div>
+          <div class="set-pip" id="setPip2"></div>
+          <div class="set-pip" id="setPip3"></div>
+        </div>
+      </div>
+
+      <div class="circuit-cards" id="circuitCards">
+
+        <div class="circuit-card dimmed" id="cardUpper">
+          <div class="circuit-card-label">Upper Body</div>
+          <div class="circuit-card-content">
+            <span class="circuit-card-icon" id="upperIcon">💪</span>
+            <div class="circuit-card-info">
+              <div class="circuit-card-name" id="upperName">—</div>
+              <div class="circuit-card-desc" id="upperDesc"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="circuit-card dimmed" id="cardLower">
+          <div class="circuit-card-label">Lower Body</div>
+          <div class="circuit-card-content">
+            <span class="circuit-card-icon" id="lowerIcon">🦵</span>
+            <div class="circuit-card-info">
+              <div class="circuit-card-name" id="lowerName">—</div>
+              <div class="circuit-card-desc" id="lowerDesc"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="circuit-card dimmed" id="cardCore">
+          <div class="circuit-card-label">Core</div>
+          <div class="circuit-card-content">
+            <span class="circuit-card-icon" id="coreIcon">⚡</span>
+            <div class="circuit-card-info">
+              <div class="circuit-card-name" id="coreName">—</div>
+              <div class="circuit-card-desc" id="coreDesc"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 45s exercise sub-timer (shown during break) -->
+      <div class="ex-timer-row hidden" id="exTimerRowAdv">
+        <span class="ex-timer-clock" id="exTimerLabelAdv">0:45</span>
+        <div class="ex-timer-info">
+          <span class="ex-timer-status" id="exTimerStatusAdv">exercise timer</span>
+        </div>
+      </div>
+
     </div>
 
     <!-- Action buttons -->
