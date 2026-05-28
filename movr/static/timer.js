@@ -96,7 +96,7 @@ function tick() {
 }
 
 function renderTimer() {
-  const total  = phase === "rest" ? REST_SECS : BREAK_SECS;
+  const total  = (phase === "rest" || phase === "idle") ? REST_SECS : BREAK_SECS;
   const frac   = secondsLeft / total;
   const offset = CIRCUMFERENCE * (1 - frac);
 
@@ -139,6 +139,7 @@ function enterBreak() {
   phase       = "break";
   secondsLeft = BREAK_SECS;
   renderTimer();
+  startTick();
   chimeBreakStart();
   notify("Time to move!", `Your exercise: ${exerciseData?.exercise?.name ?? "Let's go!"}`);
   startExerciseTimer(exerciseData?.exercise?.duration_seconds ?? 60);
