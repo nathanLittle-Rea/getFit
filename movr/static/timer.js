@@ -385,6 +385,13 @@ function stopCircuitStep() {
 function tickCircuitTimer() {
   circuitSecsLeft = Math.max(0, circuitSecsLeft - 1);
   renderCircuitTimer();
+
+  const ex   = exerciseForStep(circuitStep);
+  const half = Math.ceil((ex?.duration_seconds ?? CIRCUIT_STEP_SECS) / 2);
+  if (ex?.bilateral && circuitSecsLeft === half && !circuitTimerDone) {
+    chimeSwitchSides();
+  }
+
   if (circuitSecsLeft === 0 && !circuitTimerDone) {
     circuitTimerDone = true;
     chimeExerciseDone();
@@ -395,11 +402,19 @@ function tickCircuitTimer() {
 function renderCircuitTimer() {
   const m = String(Math.floor(circuitSecsLeft / 60)).padStart(2, "0");
   const s = String(circuitSecsLeft % 60).padStart(2, "0");
-  exTimerLabelAdv.textContent  = `${m}:${s}`;
-  exTimerLabelAdv.className    = "ex-timer-clock";
+  exTimerLabelAdv.textContent = `${m}:${s}`;
+  exTimerLabelAdv.className   = "ex-timer-clock";
+
   const setNum = Math.floor(circuitStep / 3) + 1;
   const exNum  = (circuitStep % 3) + 1;
-  exTimerStatusAdv.textContent = `set ${setNum} · exercise ${exNum}/3`;
+  const ex     = exerciseForStep(circuitStep);
+  const half   = Math.ceil((ex?.duration_seconds ?? CIRCUIT_STEP_SECS) / 2);
+
+  let statusSuffix = "";
+  if (ex?.bilateral) {
+    statusSuffix = circuitSecsLeft > half ? " · left side" : " · right side";
+  }
+  exTimerStatusAdv.textContent = `set ${setNum} · exercise ${exNum}/3${statusSuffix}`;
 }
 
 // ── Basic exercise countdown ──────────────────────────────
@@ -547,6 +562,14 @@ function chimeExerciseDone() {
   playTone(523, t + 0.2, 0.45);
 }
 
+// Two short pulses — switch sides
+function chimeSwitchSides() {
+  const ctx = getAudioCtx();
+  const t   = ctx.currentTime;
+  playTone(660, t,        0.12);
+  playTone(660, t + 0.18, 0.12);
+}
+
 // ── Notifications ─────────────────────────────────────────
 function notify(title, body) {
   if (!notifGranted) return;
@@ -598,15 +621,18 @@ async function switchMode(newMode) {
   stopCircuitStep();
   circuitStep = 0;
   circuitDone = false;
-  paused      = false;
-  phase       = "rest";
-  secondsLeft = REST_SECS;
-  pauseBtn.textContent = "Pause";
-  pauseBtn.classList.remove("btn-paused");
 
   applyMode();
   await fetchState();
-  startTick();
+
+  // If mid-break, start the new mode's exercise timer immediately
+  if (phase === "break") {
+    if (mode === "advanced") {
+      startCircuit();
+    } else {
+      startExerciseTimer(exerciseData?.exercise?.duration_seconds ?? 60);
+    }
+  }
 }
 
 // ── Event listeners ───────────────────────────────────────

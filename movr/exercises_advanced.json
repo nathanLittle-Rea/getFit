@@ -1,460 +1,751 @@
 {
   "upper": [
     {
-      "id": 101, "name": "Chin Tucks", "category": "upper",
+      "id": 101,
+      "name": "Chin Tucks",
+      "category": "upper",
       "description": "Stand tall. Pull chin straight back, making a double chin. Hold 3 seconds, release. Directly counteracts forward head posture from screen time.",
-      "duration_seconds": 45, "icon": "💆"
+      "duration_seconds": 45,
+      "icon": "💆"
     },
     {
-      "id": 102, "name": "Wall Angels", "category": "upper",
+      "id": 102,
+      "name": "Wall Angels",
+      "category": "upper",
       "description": "Stand with back flat against a wall, arms bent at 90°. Slowly slide arms overhead while keeping wrists and elbows in contact with the wall. Activates lower traps.",
-      "duration_seconds": 45, "icon": "🙆"
+      "duration_seconds": 45,
+      "icon": "🙆"
     },
     {
-      "id": 103, "name": "Doorway Chest Stretch", "category": "upper",
+      "id": 103,
+      "name": "Doorway Chest Stretch",
+      "category": "upper",
       "description": "Place forearms on a doorframe at 90°. Lean gently forward until you feel a stretch across your chest. Hold and breathe. Switch arm height halfway through.",
-      "duration_seconds": 45, "icon": "🚪"
+      "duration_seconds": 45,
+      "icon": "🚪"
     },
     {
-      "id": 104, "name": "Scapular Retractions", "category": "upper",
+      "id": 104,
+      "name": "Scapular Retractions",
+      "category": "upper",
       "description": "Stand or sit tall. Squeeze shoulder blades together as if gripping a pencil between them. Hold 5 seconds, release fully. Reactivates chronically inhibited mid-traps.",
-      "duration_seconds": 45, "icon": "🎯"
+      "duration_seconds": 45,
+      "icon": "🎯"
     },
     {
-      "id": 105, "name": "Prone Y-T-W", "category": "upper",
+      "id": 105,
+      "name": "Prone Y-T-W",
+      "category": "upper",
       "description": "Lie face down. Raise arms into a Y shape with thumbs up, hold 3s. Move to a T, hold 3s. Move to a W with elbows bent, hold 3s. Repeat. Builds postural foundation.",
-      "duration_seconds": 45, "icon": "🏊"
+      "duration_seconds": 45,
+      "icon": "🏊"
     },
     {
-      "id": 106, "name": "Prone Cobra", "category": "upper",
+      "id": 106,
+      "name": "Prone Cobra",
+      "category": "upper",
       "description": "Lie face down, arms at sides, palms down. Lift chest, arms, and legs slightly. Squeeze glutes, pinch shoulder blades. Hold 5 seconds, lower. Counters thoracic flexion.",
-      "duration_seconds": 45, "icon": "🐍"
+      "duration_seconds": 45,
+      "icon": "🐍"
     },
     {
-      "id": 107, "name": "Thoracic Rotation Stretch", "category": "upper",
+      "id": 107,
+      "name": "Thoracic Rotation Stretch",
+      "category": "upper",
       "description": "Sit on the floor with knees bent. Place one hand behind your head. Rotate your upper back, leading with that elbow. Keep hips still. Alternate sides.",
-      "duration_seconds": 45, "icon": "🌀"
+      "duration_seconds": 45,
+      "icon": "🌀",
+      "bilateral": true
     },
     {
-      "id": 108, "name": "Neck Side Stretch", "category": "upper",
+      "id": 108,
+      "name": "Neck Side Stretch",
+      "category": "upper",
       "description": "Sit or stand tall. Tilt head toward one shoulder. Place hand gently on head for added stretch. Hold 12 seconds each side. Releases upper trapezius tension.",
-      "duration_seconds": 45, "icon": "💆"
+      "duration_seconds": 45,
+      "icon": "💆",
+      "bilateral": true
     },
     {
-      "id": 109, "name": "Shoulder Cross-Body Stretch", "category": "upper",
+      "id": 109,
+      "name": "Shoulder Cross-Body Stretch",
+      "category": "upper",
       "description": "Pull one arm across your chest with the other arm. Feel stretch in the back of the shoulder. Hold 12 seconds each side. Addresses posterior capsule tightness.",
-      "duration_seconds": 45, "icon": "🤸"
+      "duration_seconds": 45,
+      "icon": "🤸",
+      "bilateral": true
     },
     {
-      "id": 110, "name": "Dumbbell Reverse Fly", "category": "upper",
+      "id": 110,
+      "name": "Dumbbell Reverse Fly",
+      "category": "upper",
       "description": "Hinge forward at hips, dumbbells hanging. Raise arms out to sides squeezing shoulder blades. Lower slowly. Directly targets the postural muscles between your shoulder blades.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 111, "name": "Dumbbell Bent-Over Row", "category": "upper",
+      "id": 111,
+      "name": "Dumbbell Bent-Over Row",
+      "category": "upper",
       "description": "Hinge forward at hips, dumbbells hanging, palms facing in. Pull elbows back, squeezing shoulder blades at the top. Lower slowly. Keep back flat.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 112, "name": "Superman Hold", "category": "upper",
+      "id": 112,
+      "name": "Superman Hold",
+      "category": "upper",
       "description": "Lie face down, arms extended overhead. Simultaneously lift arms, chest, and legs. Hold 3 seconds, lower slowly. Builds spinal erectors and reinforces upright posture.",
-      "duration_seconds": 45, "icon": "🦸"
+      "duration_seconds": 45,
+      "icon": "🦸"
     },
     {
-      "id": 113, "name": "Push-Up", "category": "upper",
+      "id": 113,
+      "name": "Push-Up",
+      "category": "upper",
       "description": "Hands slightly wider than shoulder-width, body in a straight line. Lower chest to floor, push back up. Modify on knees if needed. Full upper-body compound movement.",
-      "duration_seconds": 45, "icon": "💪"
+      "duration_seconds": 45,
+      "icon": "💪"
     },
     {
-      "id": 114, "name": "Wide Push-Up", "category": "upper",
+      "id": 114,
+      "name": "Wide Push-Up",
+      "category": "upper",
       "description": "Hands wider than shoulder-width. Lower chest toward floor, leading with the chest. Push back up. Greater chest activation than standard push-up.",
-      "duration_seconds": 45, "icon": "👐"
+      "duration_seconds": 45,
+      "icon": "👐"
     },
     {
-      "id": 115, "name": "Diamond Push-Up", "category": "upper",
+      "id": 115,
+      "name": "Diamond Push-Up",
+      "category": "upper",
       "description": "Hands close together forming a diamond shape under chest. Lower and push up. Heavily isolates triceps. Modify on knees if needed.",
-      "duration_seconds": 45, "icon": "💎"
+      "duration_seconds": 45,
+      "icon": "💎"
     },
     {
-      "id": 116, "name": "Pike Push-Up", "category": "upper",
+      "id": 116,
+      "name": "Pike Push-Up",
+      "category": "upper",
       "description": "Start in a downward-dog position with hips high. Bend elbows and lower the crown of your head toward the floor between your hands. Push back up. Targets shoulders.",
-      "duration_seconds": 45, "icon": "🔺"
+      "duration_seconds": 45,
+      "icon": "🔺"
     },
     {
-      "id": 117, "name": "Tricep Dips", "category": "upper",
+      "id": 117,
+      "name": "Tricep Dips",
+      "category": "upper",
       "description": "Hands on the edge of a sturdy chair, feet extended in front. Bend elbows to lower body, then press back up. Keep elbows pointing straight back, not flaring out.",
-      "duration_seconds": 45, "icon": "🪑"
+      "duration_seconds": 45,
+      "icon": "🪑"
     },
     {
-      "id": 118, "name": "Dumbbell Bicep Curl", "category": "upper",
+      "id": 118,
+      "name": "Dumbbell Bicep Curl",
+      "category": "upper",
       "description": "Stand with dumbbells at sides, palms forward. Curl both up to shoulders, squeezing biceps at the top. Lower slowly. Keep elbows pinned to your sides.",
-      "duration_seconds": 45, "icon": "💪"
+      "duration_seconds": 45,
+      "icon": "💪"
     },
     {
-      "id": 119, "name": "Dumbbell Hammer Curl", "category": "upper",
+      "id": 119,
+      "name": "Dumbbell Hammer Curl",
+      "category": "upper",
       "description": "Stand with dumbbells, palms facing each other. Curl up, keeping the neutral grip throughout. Targets the brachialis and builds thick arm strength.",
-      "duration_seconds": 45, "icon": "🔨"
+      "duration_seconds": 45,
+      "icon": "🔨"
     },
     {
-      "id": 120, "name": "Dumbbell Overhead Press", "category": "upper",
+      "id": 120,
+      "name": "Dumbbell Overhead Press",
+      "category": "upper",
       "description": "Hold dumbbells at shoulder height, palms forward. Press directly overhead until arms extend. Lower back to shoulders. Brace core throughout.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 121, "name": "Dumbbell Lateral Raise", "category": "upper",
+      "id": 121,
+      "name": "Dumbbell Lateral Raise",
+      "category": "upper",
       "description": "Hold dumbbells at sides. Raise arms out to sides to shoulder height with a slight bend in elbows. Lower slowly. Don't shrug. Isolates medial deltoid.",
-      "duration_seconds": 45, "icon": "✈️"
+      "duration_seconds": 45,
+      "icon": "✈️"
     },
     {
-      "id": 122, "name": "Dumbbell Front Raise", "category": "upper",
+      "id": 122,
+      "name": "Dumbbell Front Raise",
+      "category": "upper",
       "description": "Hold dumbbells at thighs, palms back. Raise both arms forward to shoulder height. Lower slowly. Alternate arms after 20 seconds to maintain form.",
-      "duration_seconds": 45, "icon": "⬆️"
+      "duration_seconds": 45,
+      "icon": "⬆️"
     },
     {
-      "id": 123, "name": "Dumbbell Arnold Press", "category": "upper",
+      "id": 123,
+      "name": "Dumbbell Arnold Press",
+      "category": "upper",
       "description": "Start with dumbbells at chin, palms facing you. As you press up, rotate palms forward. Reverse on the way down. Full three-dimensional shoulder activation.",
-      "duration_seconds": 45, "icon": "💫"
+      "duration_seconds": 45,
+      "icon": "💫"
     },
     {
-      "id": 124, "name": "Dumbbell Tricep Kickback", "category": "upper",
+      "id": 124,
+      "name": "Dumbbell Tricep Kickback",
+      "category": "upper",
       "description": "Hinge forward at hips. Upper arms parallel to floor, elbows bent. Extend forearms back until arms are fully straight. Lower slowly. Keep upper arms perfectly still.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 125, "name": "Dumbbell Chest Press (Floor)", "category": "upper",
+      "id": 125,
+      "name": "Dumbbell Chest Press (Floor)",
+      "category": "upper",
       "description": "Lie on your back, dumbbells at chest level, elbows at 45°. Press dumbbells up until arms extend, then lower back with control. Safe floor alternative to bench press.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 126, "name": "Dumbbell Chest Fly (Floor)", "category": "upper",
+      "id": 126,
+      "name": "Dumbbell Chest Fly (Floor)",
+      "category": "upper",
       "description": "Lie on back, dumbbells extended above chest. Lower arms out to sides in a wide arc with a slight elbow bend. Squeeze chest to bring them back up.",
-      "duration_seconds": 45, "icon": "🦋"
+      "duration_seconds": 45,
+      "icon": "🦋"
     },
     {
-      "id": 127, "name": "Dumbbell Upright Row", "category": "upper",
+      "id": 127,
+      "name": "Dumbbell Upright Row",
+      "category": "upper",
       "description": "Hold dumbbells in front of thighs. Pull straight up along the body until elbows reach shoulder height, dumbbells near chin. Lower slowly.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 128, "name": "Dumbbell Skull Crusher (Floor)", "category": "upper",
+      "id": 128,
+      "name": "Dumbbell Skull Crusher (Floor)",
+      "category": "upper",
       "description": "Lie on back, dumbbells extended above forehead. Bend only at the elbows, lowering dumbbells toward your forehead. Extend back up. Keep upper arms vertical throughout.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 129, "name": "Dumbbell Pullover (Floor)", "category": "upper",
+      "id": 129,
+      "name": "Dumbbell Pullover (Floor)",
+      "category": "upper",
       "description": "Lie on back, hold one dumbbell overhead with both hands. Lower it back over your head in an arc with a slight elbow bend. Pull back over chest. Works lats and chest.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 130, "name": "Wrist Extensor Stretch", "category": "upper",
+      "id": 130,
+      "name": "Wrist Extensor Stretch",
+      "category": "upper",
       "description": "Extend one arm forward, palm down. Use the other hand to gently press fingers down toward the floor. Hold 15 seconds each side. Essential for keyboard and mouse fatigue.",
-      "duration_seconds": 45, "icon": "🤲"
+      "duration_seconds": 45,
+      "icon": "🤲",
+      "bilateral": true
     }
   ],
-
   "lower": [
     {
-      "id": 201, "name": "Hip Flexor Lunge Stretch", "category": "lower",
+      "id": 201,
+      "name": "Hip Flexor Lunge Stretch",
+      "category": "lower",
       "description": "Kneel on one knee, front foot forward. Tuck pelvis slightly and lean forward until you feel a deep stretch in the front of the back hip. Hold 15 seconds. Switch sides.",
-      "duration_seconds": 45, "icon": "🧘"
+      "duration_seconds": 45,
+      "icon": "🧘",
+      "bilateral": true
     },
     {
-      "id": 202, "name": "Pigeon Pose", "category": "lower",
+      "id": 202,
+      "name": "Pigeon Pose",
+      "category": "lower",
       "description": "From hands and knees, bring one shin forward and extend the other leg back. Fold forward over the front shin for a deeper stretch. Hold each side. Releases hip external rotators.",
-      "duration_seconds": 45, "icon": "🕊️"
+      "duration_seconds": 45,
+      "icon": "🕊️",
+      "bilateral": true
     },
     {
-      "id": 203, "name": "Figure-4 Stretch", "category": "lower",
+      "id": 203,
+      "name": "Figure-4 Stretch",
+      "category": "lower",
       "description": "Lie on back. Cross one ankle over the opposite knee and flex that foot. Hold behind the thigh to pull both legs toward chest. Hold 15 seconds each side. Targets piriformis.",
-      "duration_seconds": 45, "icon": "🦶"
+      "duration_seconds": 45,
+      "icon": "🦶",
+      "bilateral": true
     },
     {
-      "id": 204, "name": "Glute Bridge", "category": "lower",
+      "id": 204,
+      "name": "Glute Bridge",
+      "category": "lower",
       "description": "Lie on back, feet flat, hip-width apart. Drive hips up squeezing glutes hard at the top. Hold 2 seconds. Lower slowly. Reactivates glutes inhibited by prolonged sitting.",
-      "duration_seconds": 45, "icon": "🌉"
+      "duration_seconds": 45,
+      "icon": "🌉"
     },
     {
-      "id": 205, "name": "Single-Leg Glute Bridge", "category": "lower",
+      "id": 205,
+      "name": "Single-Leg Glute Bridge",
+      "category": "lower",
       "description": "Lie on back, one foot flat, other leg extended toward the ceiling. Bridge up on the single leg, squeezing the glute. Lower slowly. Alternate sides halfway through.",
-      "duration_seconds": 45, "icon": "🦵"
+      "duration_seconds": 45,
+      "icon": "🦵",
+      "bilateral": true
     },
     {
-      "id": 206, "name": "Donkey Kicks", "category": "lower",
+      "id": 206,
+      "name": "Donkey Kicks",
+      "category": "lower",
       "description": "On hands and knees. Keeping knee bent at 90°, drive one foot toward the ceiling, squeezing the glute hard at the top. Lower. Alternate after 20 seconds.",
-      "duration_seconds": 45, "icon": "🦵"
+      "duration_seconds": 45,
+      "icon": "🦵",
+      "bilateral": true
     },
     {
-      "id": 207, "name": "Fire Hydrants", "category": "lower",
+      "id": 207,
+      "name": "Fire Hydrants",
+      "category": "lower",
       "description": "On hands and knees. Lift one knee out to the side, keeping the 90° bend, as high as possible without rotating the hip. Lower. Activates glute medius. Alternate sides halfway.",
-      "duration_seconds": 45, "icon": "🦵"
+      "duration_seconds": 45,
+      "icon": "🦵",
+      "bilateral": true
     },
     {
-      "id": 208, "name": "Clamshells", "category": "lower",
+      "id": 208,
+      "name": "Clamshells",
+      "category": "lower",
       "description": "Lie on your side, hips stacked, knees bent at 45°. Keeping feet together, lift the top knee as high as you can without rolling the hip back. Alternate sides halfway.",
-      "duration_seconds": 45, "icon": "🦪"
+      "duration_seconds": 45,
+      "icon": "🦪",
+      "bilateral": true
     },
     {
-      "id": 209, "name": "Standing Hip Circles", "category": "lower",
+      "id": 209,
+      "name": "Standing Hip Circles",
+      "category": "lower",
       "description": "Stand on one foot, hands on hips. Draw large, slow circles with the raised knee — forward 10 seconds, then backward 10 seconds. Switch legs. Restores hip joint mobility.",
-      "duration_seconds": 45, "icon": "🔄"
+      "duration_seconds": 45,
+      "icon": "🔄",
+      "bilateral": true
     },
     {
-      "id": 210, "name": "Standing Glute Squeeze", "category": "lower",
+      "id": 210,
+      "name": "Standing Glute Squeeze",
+      "category": "lower",
       "description": "Stand tall, feet hip-width apart. Squeeze both glutes as hard as possible. Hold 5 seconds, fully release. Repeat. Re-teaches glute activation after prolonged sitting.",
-      "duration_seconds": 45, "icon": "💥"
+      "duration_seconds": 45,
+      "icon": "💥"
     },
     {
-      "id": 211, "name": "Bodyweight Squat", "category": "lower",
+      "id": 211,
+      "name": "Bodyweight Squat",
+      "category": "lower",
       "description": "Feet shoulder-width apart, toes slightly out. Sit back and down until thighs are parallel to the floor. Drive through heels to stand. Keep chest tall.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 212, "name": "Sumo Squat", "category": "lower",
+      "id": 212,
+      "name": "Sumo Squat",
+      "category": "lower",
       "description": "Feet wide, toes turned out 45°. Squat down keeping knees tracking over toes. Targets inner thighs and glutes more than a standard squat. Drive through heels to stand.",
-      "duration_seconds": 45, "icon": "🤼"
+      "duration_seconds": 45,
+      "icon": "🤼"
     },
     {
-      "id": 213, "name": "Reverse Lunge", "category": "lower",
+      "id": 213,
+      "name": "Reverse Lunge",
+      "category": "lower",
       "description": "Stand tall. Step one foot back and lower the back knee toward the floor. Push off the front foot to return. Alternate legs. Easier on knees than a forward lunge.",
-      "duration_seconds": 45, "icon": "🦵"
+      "duration_seconds": 45,
+      "icon": "🦵"
     },
     {
-      "id": 214, "name": "Forward Lunge", "category": "lower",
+      "id": 214,
+      "name": "Forward Lunge",
+      "category": "lower",
       "description": "Step one foot forward and lower the back knee toward the floor. Push off the front foot to return. Alternate legs. Keep torso upright throughout.",
-      "duration_seconds": 45, "icon": "🦵"
+      "duration_seconds": 45,
+      "icon": "🦵"
     },
     {
-      "id": 215, "name": "Side Lunge", "category": "lower",
+      "id": 215,
+      "name": "Side Lunge",
+      "category": "lower",
       "description": "Step one foot wide to the side, sit into that hip while keeping the other leg straight. Push back to center. Alternate sides. Excellent for hip mobility.",
-      "duration_seconds": 45, "icon": "↔️"
+      "duration_seconds": 45,
+      "icon": "↔️"
     },
     {
-      "id": 216, "name": "Split Squat", "category": "lower",
+      "id": 216,
+      "name": "Split Squat",
+      "category": "lower",
       "description": "Front foot forward, back foot resting on a chair or the floor behind you. Lower the back knee toward the floor. Stay on one leg for 20 seconds, then switch.",
-      "duration_seconds": 45, "icon": "🦵"
+      "duration_seconds": 45,
+      "icon": "🦵",
+      "bilateral": true
     },
     {
-      "id": 217, "name": "Wall Sit", "category": "lower",
+      "id": 217,
+      "name": "Wall Sit",
+      "category": "lower",
       "description": "Back against wall, lower until thighs are parallel to the floor at 90°. Hold for the full 45 seconds. Isometric quad and glute endurance.",
-      "duration_seconds": 45, "icon": "🧱"
+      "duration_seconds": 45,
+      "icon": "🧱"
     },
     {
-      "id": 218, "name": "Calf Raises", "category": "lower",
+      "id": 218,
+      "name": "Calf Raises",
+      "category": "lower",
       "description": "Stand on the edge of a step or flat floor. Rise up on toes, hold 2 seconds at the top. Lower slowly, going below the starting position if possible. Improves circulation.",
-      "duration_seconds": 45, "icon": "🦶"
+      "duration_seconds": 45,
+      "icon": "🦶"
     },
     {
-      "id": 219, "name": "Single-Leg Calf Raise", "category": "lower",
+      "id": 219,
+      "name": "Single-Leg Calf Raise",
+      "category": "lower",
       "description": "Balance on one foot. Rise up on toes, hold 2 seconds. Lower slowly. Use wall for balance only, not support. Alternate sides halfway. Greater strength challenge.",
-      "duration_seconds": 45, "icon": "🦶"
+      "duration_seconds": 45,
+      "icon": "🦶",
+      "bilateral": true
     },
     {
-      "id": 220, "name": "Standing Hip Abduction", "category": "lower",
+      "id": 220,
+      "name": "Standing Hip Abduction",
+      "category": "lower",
       "description": "Stand tall. Lift one leg directly out to the side, keeping toes pointing forward. Lower slowly. Targets glute medius. Alternate sides halfway.",
-      "duration_seconds": 45, "icon": "🦵"
+      "duration_seconds": 45,
+      "icon": "🦵",
+      "bilateral": true
     },
     {
-      "id": 221, "name": "Dumbbell Goblet Squat", "category": "lower",
+      "id": 221,
+      "name": "Dumbbell Goblet Squat",
+      "category": "lower",
       "description": "Hold one dumbbell vertically at chest height. Squat deep, elbows inside knees at the bottom. Drive through heels to stand. Improves squat depth and mobility.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 222, "name": "Dumbbell Romanian Deadlift", "category": "lower",
+      "id": 222,
+      "name": "Dumbbell Romanian Deadlift",
+      "category": "lower",
       "description": "Hold dumbbells in front of thighs. Hinge at the hips, pushing them back, sliding weights down the legs. Feel the hamstring stretch. Drive hips forward to stand.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 223, "name": "Dumbbell Reverse Lunge", "category": "lower",
+      "id": 223,
+      "name": "Dumbbell Reverse Lunge",
+      "category": "lower",
       "description": "Hold dumbbells at sides. Step back into a lunge, lowering the back knee. Return to standing. Alternate legs. Added load increases glute and quad demand.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 224, "name": "Dumbbell Sumo Squat", "category": "lower",
+      "id": 224,
+      "name": "Dumbbell Sumo Squat",
+      "category": "lower",
       "description": "Hold one dumbbell with both hands between your legs, feet wide. Squat down keeping chest tall and knees tracking over toes. Drive through heels.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 225, "name": "Dumbbell Hip Thrust (Floor)", "category": "lower",
+      "id": 225,
+      "name": "Dumbbell Hip Thrust (Floor)",
+      "category": "lower",
       "description": "Lie on back, dumbbell resting on your hips, knees bent. Drive hips up, squeezing glutes hard at the top. Hold 2 seconds. Lower slowly. Greatest glute activation exercise.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 226, "name": "Dumbbell Step-Up", "category": "lower",
+      "id": 226,
+      "name": "Dumbbell Step-Up",
+      "category": "lower",
       "description": "Hold dumbbells at sides. Step up onto a sturdy chair or step, driving through the front heel. Step back down. Alternate the leading leg each rep.",
-      "duration_seconds": 45, "icon": "🪜"
+      "duration_seconds": 45,
+      "icon": "🪜"
     },
     {
-      "id": 227, "name": "Dumbbell Lateral Lunge", "category": "lower",
+      "id": 227,
+      "name": "Dumbbell Lateral Lunge",
+      "category": "lower",
       "description": "Hold dumbbells at sides. Take a wide step to one side and sit into that hip. Push back to center. Alternate sides. Targets inner thighs and glutes in a frontal plane.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️"
     },
     {
-      "id": 228, "name": "Prone Hamstring Curl (Floor)", "category": "lower",
+      "id": 228,
+      "name": "Prone Hamstring Curl (Floor)",
+      "category": "lower",
       "description": "Lie face down, one dumbbell held between your feet. Curl heels toward glutes, squeezing hamstrings. Lower slowly. Can be done bodyweight — the dumbbell adds resistance.",
-      "duration_seconds": 45, "icon": "🦵"
+      "duration_seconds": 45,
+      "icon": "🦵"
     },
     {
-      "id": 229, "name": "Glute Bridge March", "category": "lower",
+      "id": 229,
+      "name": "Glute Bridge March",
+      "category": "lower",
       "description": "Lie on back in a glute bridge position. Maintaining hip height, alternately lift feet a few inches off the floor. Keep hips perfectly level. Challenges stability.",
-      "duration_seconds": 45, "icon": "🦵"
+      "duration_seconds": 45,
+      "icon": "🦵"
     },
     {
-      "id": 230, "name": "Standing Hip Extension", "category": "lower",
+      "id": 230,
+      "name": "Standing Hip Extension",
+      "category": "lower",
       "description": "Stand tall. Extend one leg straight back, squeezing the glute hard at end range. Hold 2 seconds. Return. Alternate sides halfway. Use wall for balance only.",
-      "duration_seconds": 45, "icon": "🦵"
+      "duration_seconds": 45,
+      "icon": "🦵",
+      "bilateral": true
     }
   ],
-
   "core": [
     {
-      "id": 301, "name": "Pelvic Tilt (Standing)", "category": "core",
+      "id": 301,
+      "name": "Pelvic Tilt (Standing)",
+      "category": "core",
       "description": "Stand with back to wall. Flatten your lower back against it by tilting your pelvis. Hold 5 seconds, release. Retrains transverse abdominis and directly corrects anterior pelvic tilt.",
-      "duration_seconds": 45, "icon": "🎯"
+      "duration_seconds": 45,
+      "icon": "🎯"
     },
     {
-      "id": 302, "name": "Standing Cat-Cow", "category": "core",
+      "id": 302,
+      "name": "Standing Cat-Cow",
+      "category": "core",
       "description": "Stand feet hip-width apart, hands on thighs. Round spine up toward ceiling (cat), then let belly drop and lift gaze (cow). Move deliberately with each breath.",
-      "duration_seconds": 45, "icon": "🌊"
+      "duration_seconds": 45,
+      "icon": "🌊"
     },
     {
-      "id": 303, "name": "Bird Dog (Floor)", "category": "core",
+      "id": 303,
+      "name": "Bird Dog (Floor)",
+      "category": "core",
       "description": "On hands and knees. Extend opposite arm and leg simultaneously. Hold 3 seconds. Return slowly. Switch. Keep spine perfectly neutral — don't let hips rotate or drop.",
-      "duration_seconds": 45, "icon": "🦅"
+      "duration_seconds": 45,
+      "icon": "🦅"
     },
     {
-      "id": 304, "name": "Dead Bug (Floor)", "category": "core",
+      "id": 304,
+      "name": "Dead Bug (Floor)",
+      "category": "core",
       "description": "Lie on back, arms pointing up, knees at 90° in the air. Slowly lower opposite arm and leg toward floor without touching. Return. Switch. Keep lower back pressed to floor throughout.",
-      "duration_seconds": 45, "icon": "🪲"
+      "duration_seconds": 45,
+      "icon": "🪲"
     },
     {
-      "id": 305, "name": "McGill Curl-Up", "category": "core",
+      "id": 305,
+      "name": "McGill Curl-Up",
+      "category": "core",
       "description": "Lie on back, one knee bent, one leg flat. Hands under lower back to maintain natural curve. Lift only head and shoulders slightly. Hold 10 seconds. Spine-safe ab activation.",
-      "duration_seconds": 45, "icon": "💪"
+      "duration_seconds": 45,
+      "icon": "💪"
     },
     {
-      "id": 306, "name": "Plank Hold", "category": "core",
+      "id": 306,
+      "name": "Plank Hold",
+      "category": "core",
       "description": "Forearms on floor, body in a straight line from head to heels. Squeeze glutes, brace core. Breathe steadily. Avoid sagging hips or raised rear. Hold for 45 seconds.",
-      "duration_seconds": 45, "icon": "⚡"
+      "duration_seconds": 45,
+      "icon": "⚡"
     },
     {
-      "id": 307, "name": "Side Plank", "category": "core",
+      "id": 307,
+      "name": "Side Plank",
+      "category": "core",
       "description": "Lie on your side, forearm on floor, hips stacked. Lift hips to form a straight line. Hold 20 seconds each side. Modify on knees if needed. Targets lateral core and QL.",
-      "duration_seconds": 45, "icon": "⚡"
+      "duration_seconds": 45,
+      "icon": "⚡",
+      "bilateral": true
     },
     {
-      "id": 308, "name": "Hollow Body Hold", "category": "core",
+      "id": 308,
+      "name": "Hollow Body Hold",
+      "category": "core",
       "description": "Lie on back. Arms overhead, legs straight — lift shoulders and feet off the floor so the body forms a shallow dish. Lower back stays flat. Breathe steadily. Hold 45 seconds.",
-      "duration_seconds": 45, "icon": "🌙"
+      "duration_seconds": 45,
+      "icon": "🌙"
     },
     {
-      "id": 309, "name": "Standing Pallof Hold", "category": "core",
+      "id": 309,
+      "name": "Standing Pallof Hold",
+      "category": "core",
       "description": "Stand side-on to a wall. Press palms together at chest, then extend arms straight out and hold. Resist any rotation toward or away from the wall. 20 seconds each side.",
-      "duration_seconds": 45, "icon": "🎯"
+      "duration_seconds": 45,
+      "icon": "🎯",
+      "bilateral": true
     },
     {
-      "id": 310, "name": "Cat-Cow (Floor)", "category": "core",
+      "id": 310,
+      "name": "Cat-Cow (Floor)",
+      "category": "core",
       "description": "On hands and knees. Round spine fully up toward ceiling (cat), hold 2 seconds. Let belly drop and lift gaze (cow), hold 2 seconds. Move with breath. Mobilizes the entire spine.",
-      "duration_seconds": 45, "icon": "🐱"
+      "duration_seconds": 45,
+      "icon": "🐱"
     },
     {
-      "id": 311, "name": "Mountain Climbers", "category": "core",
+      "id": 311,
+      "name": "Mountain Climbers",
+      "category": "core",
       "description": "Start in a high push-up position. Drive knees alternately toward your chest in a running motion. Keep hips level and core braced. Controlled pace — quality over speed.",
-      "duration_seconds": 45, "icon": "🧗"
+      "duration_seconds": 45,
+      "icon": "🧗"
     },
     {
-      "id": 312, "name": "Bicycle Crunch", "category": "core",
+      "id": 312,
+      "name": "Bicycle Crunch",
+      "category": "core",
       "description": "Lie on back, hands behind head. Bring opposite elbow to knee while extending the other leg. Rotate through the thoracic spine — don't just pull the elbows.",
-      "duration_seconds": 45, "icon": "🚴"
+      "duration_seconds": 45,
+      "icon": "🚴"
     },
     {
-      "id": 313, "name": "Reverse Crunch", "category": "core",
+      "id": 313,
+      "name": "Reverse Crunch",
+      "category": "core",
       "description": "Lie on back, knees at 90°. Use lower abs to curl knees toward chest, lifting hips slightly off the floor. Lower slowly. Keep lower back in contact with the floor.",
-      "duration_seconds": 45, "icon": "🔄"
+      "duration_seconds": 45,
+      "icon": "🔄"
     },
     {
-      "id": 314, "name": "Leg Raises (Floor)", "category": "core",
+      "id": 314,
+      "name": "Leg Raises (Floor)",
+      "category": "core",
       "description": "Lie on back, legs straight. Brace core and lift legs to 90°. Lower slowly without letting feet touch the floor. Modify by bending knees to reduce load.",
-      "duration_seconds": 45, "icon": "🦵"
+      "duration_seconds": 45,
+      "icon": "🦵"
     },
     {
-      "id": 315, "name": "Flutter Kicks", "category": "core",
+      "id": 315,
+      "name": "Flutter Kicks",
+      "category": "core",
       "description": "Lie on back, legs raised slightly off the floor. Alternate small up-and-down kicks with straight legs. Keep lower back pressed to floor. Breathe steadily throughout.",
-      "duration_seconds": 45, "icon": "⚡"
+      "duration_seconds": 45,
+      "icon": "⚡"
     },
     {
-      "id": 316, "name": "Russian Twist", "category": "core",
+      "id": 316,
+      "name": "Russian Twist",
+      "category": "core",
       "description": "Sit with knees bent, lean back slightly to engage core. Clasp hands together and rotate side to side, touching the floor beside each hip. Keep feet on the floor.",
-      "duration_seconds": 45, "icon": "🌀"
+      "duration_seconds": 45,
+      "icon": "🌀"
     },
     {
-      "id": 317, "name": "V-Sit Hold", "category": "core",
+      "id": 317,
+      "name": "V-Sit Hold",
+      "category": "core",
       "description": "Sit and lean back slightly, then lift legs to form a V shape with your body. Arms extended forward for balance. Hold. Bend knees slightly if needed.",
-      "duration_seconds": 45, "icon": "✌️"
+      "duration_seconds": 45,
+      "icon": "✌️"
     },
     {
-      "id": 318, "name": "Plank Shoulder Tap", "category": "core",
+      "id": 318,
+      "name": "Plank Shoulder Tap",
+      "category": "core",
       "description": "In a high push-up position. Alternately tap the opposite shoulder with each hand. Minimize hip rotation with each tap. Slow and controlled is harder than fast.",
-      "duration_seconds": 45, "icon": "⚡"
+      "duration_seconds": 45,
+      "icon": "⚡"
     },
     {
-      "id": 319, "name": "Plank Hip Dip", "category": "core",
+      "id": 319,
+      "name": "Plank Hip Dip",
+      "category": "core",
       "description": "In a forearm plank. Rotate hips to dip one side toward the floor, then the other. Keep movement controlled and deliberate. Targets the obliques.",
-      "duration_seconds": 45, "icon": "🌊"
+      "duration_seconds": 45,
+      "icon": "🌊"
     },
     {
-      "id": 320, "name": "Side Plank Hip Dip", "category": "core",
+      "id": 320,
+      "name": "Side Plank Hip Dip",
+      "category": "core",
       "description": "In a side plank. Lower your hip toward the floor, then raise back up to alignment. Controlled range. 20 seconds each side. Dynamic lateral core challenge.",
-      "duration_seconds": 45, "icon": "⚡"
+      "duration_seconds": 45,
+      "icon": "⚡",
+      "bilateral": true
     },
     {
-      "id": 321, "name": "Plank to Down Dog", "category": "core",
+      "id": 321,
+      "name": "Plank to Down Dog",
+      "category": "core",
       "description": "From a forearm plank, push up to hands. Then push hips up and back to downward dog, pressing chest toward thighs. Return to plank. Mobilizes shoulders and hamstrings.",
-      "duration_seconds": 45, "icon": "🐕"
+      "duration_seconds": 45,
+      "icon": "🐕"
     },
     {
-      "id": 322, "name": "Toe Touches (Floor)", "category": "core",
+      "id": 322,
+      "name": "Toe Touches (Floor)",
+      "category": "core",
       "description": "Lie on back, legs vertical. Reach both hands up toward your toes, lifting shoulders off the floor. Lower slowly. Exhale on the way up.",
-      "duration_seconds": 45, "icon": "👆"
+      "duration_seconds": 45,
+      "icon": "👆"
     },
     {
-      "id": 323, "name": "Dumbbell Russian Twist", "category": "core",
+      "id": 323,
+      "name": "Dumbbell Russian Twist",
+      "category": "core",
       "description": "Sit with knees bent, lean back slightly. Hold one dumbbell with both hands. Rotate side to side, touching the dumbbell to the floor beside each hip.",
-      "duration_seconds": 45, "icon": "🌀"
+      "duration_seconds": 45,
+      "icon": "🌀"
     },
     {
-      "id": 324, "name": "Dumbbell Woodchop", "category": "core",
+      "id": 324,
+      "name": "Dumbbell Woodchop",
+      "category": "core",
       "description": "Stand with feet shoulder-width. Hold dumbbell with both hands. Swing from low outside one hip to high outside the opposite shoulder in a diagonal chopping motion. 20 seconds each side.",
-      "duration_seconds": 45, "icon": "🪓"
+      "duration_seconds": 45,
+      "icon": "🪓",
+      "bilateral": true
     },
     {
-      "id": 325, "name": "Dumbbell Dead Bug", "category": "core",
+      "id": 325,
+      "name": "Dumbbell Dead Bug",
+      "category": "core",
       "description": "Dead bug position holding one dumbbell above your chest with both hands. Lower the opposite arm (holding dumbbell) and leg simultaneously. Return. Switch. Increased anti-extension demand.",
-      "duration_seconds": 45, "icon": "🪲"
+      "duration_seconds": 45,
+      "icon": "🪲"
     },
     {
-      "id": 326, "name": "Dumbbell Side Bend", "category": "core",
+      "id": 326,
+      "name": "Dumbbell Side Bend",
+      "category": "core",
       "description": "Hold one dumbbell in one hand, stand tall. Bend sideways toward the dumbbell, then return to upright. 20 seconds each side. Targets the obliques and QL.",
-      "duration_seconds": 45, "icon": "🏋️"
+      "duration_seconds": 45,
+      "icon": "🏋️",
+      "bilateral": true
     },
     {
-      "id": 327, "name": "Standing Bird Dog", "category": "core",
+      "id": 327,
+      "name": "Standing Bird Dog",
+      "category": "core",
       "description": "Stand on one foot with a slight bend in the standing knee. Extend the opposite arm forward and the other leg back simultaneously. Hold 3 seconds. Switch. Full-body balance and stability.",
-      "duration_seconds": 45, "icon": "🦅"
+      "duration_seconds": 45,
+      "icon": "🦅"
     },
     {
-      "id": 328, "name": "Standing Side Crunch", "category": "core",
+      "id": 328,
+      "name": "Standing Side Crunch",
+      "category": "core",
       "description": "Stand tall, hands behind head. Lift one knee toward the same-side elbow, crunching through the side. Lower and alternate. Targets obliques in a standing pattern.",
-      "duration_seconds": 45, "icon": "🌀"
+      "duration_seconds": 45,
+      "icon": "🌀"
     },
     {
-      "id": 329, "name": "Standing Oblique Crunch", "category": "core",
+      "id": 329,
+      "name": "Standing Oblique Crunch",
+      "category": "core",
       "description": "Stand tall with hands behind head. Lean to one side, reaching your elbow toward your hip. Return to upright. 20 seconds each side. Keep core braced throughout.",
-      "duration_seconds": 45, "icon": "💪"
+      "duration_seconds": 45,
+      "icon": "💪",
+      "bilateral": true
     },
     {
-      "id": 330, "name": "Single-Leg Balance Hold", "category": "core",
+      "id": 330,
+      "name": "Single-Leg Balance Hold",
+      "category": "core",
       "description": "Stand on one foot with a slight bend in the knee. Hold still, eyes forward. Challenge: close your eyes. 20 seconds each foot. Full-body stability and proprioception.",
-      "duration_seconds": 45, "icon": "🎯"
+      "duration_seconds": 45,
+      "icon": "🎯",
+      "bilateral": true
     }
   ]
 }
