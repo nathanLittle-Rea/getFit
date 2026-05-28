@@ -1,5 +1,6 @@
 import json
 import os
+import time
 from flask import Flask, render_template, jsonify, request, session
 from datetime import datetime
 import random
@@ -50,7 +51,7 @@ def current_exercise(state):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", cache_bust=int(time.time()))
 
 @app.route("/api/state")
 def api_state():
