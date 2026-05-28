@@ -2,7 +2,7 @@ const REST_SECS  = 30 * 60;   // 30 minutes
 const BREAK_SECS =  5 * 60;   // 5 minutes
 const CIRCUMFERENCE = 2 * Math.PI * 80;  // r=80 on the SVG ring
 
-let phase        = "idle";    // "idle" | "rest" | "break"
+let phase        = "rest";    // "rest" | "break"
 let secondsLeft  = REST_SECS;
 let tickInterval = null;
 let paused       = false;
@@ -51,7 +51,7 @@ const notifText     = document.getElementById("notifText");
 async function init() {
   await requestNotifPermission();
   await fetchState();
-  renderTimer();  // show initial state without starting the tick
+  startTick();
 }
 
 async function requestNotifPermission() {
@@ -96,7 +96,7 @@ function tick() {
 }
 
 function renderTimer() {
-  const total  = (phase === "rest" || phase === "idle") ? REST_SECS : BREAK_SECS;
+  const total  = phase === "rest" ? REST_SECS : BREAK_SECS;
   const frac   = secondsLeft / total;
   const offset = CIRCUMFERENCE * (1 - frac);
 
@@ -107,15 +107,7 @@ function renderTimer() {
   const s = String(secondsLeft % 60).padStart(2, "0");
   timerLabel.textContent = `${m}:${s}`;
 
-  if (phase === "idle") {
-    timerSublabel.textContent = "take a break to begin";
-    phaseLabel.textContent    = "Ready";
-    phaseLabel.className      = "phase-label rest";
-    mainBtn.textContent       = "Start Break Now";
-    mainBtn.className         = "btn btn-primary";
-    breakBanner.classList.remove("visible");
-    exerciseBlock.classList.add("dimmed");
-  } else if (phase === "rest") {
+  if (phase === "rest") {
     timerSublabel.textContent = "until next break";
     phaseLabel.textContent    = "Rest";
     phaseLabel.className      = "phase-label rest";
@@ -146,12 +138,11 @@ function enterBreak() {
 }
 
 async function autoEndBreak() {
-  // silently complete — go to idle so rest timer waits for Done
+  // Break time up — freeze at 0:00 and wait for user to click Done
   stopExerciseTimer();
   clearInterval(tickInterval);
   tickInterval = null;
-  phase       = "idle";
-  secondsLeft = REST_SECS;
+  secondsLeft  = 0;
   renderTimer();
 }
 
@@ -352,14 +343,12 @@ function togglePause() {
 
 function resetTimer() {
   stopExerciseTimer();
-  clearInterval(tickInterval);
-  tickInterval = null;
   paused      = false;
-  phase       = "idle";
+  phase       = "rest";
   secondsLeft = REST_SECS;
   pauseBtn.textContent = "Pause";
   pauseBtn.classList.remove("btn-paused");
-  renderTimer();
+  startTick();
 }
 
 // ── Event listeners ───────────────────────────────────────
