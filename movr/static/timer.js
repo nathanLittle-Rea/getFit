@@ -26,6 +26,12 @@ let circuitTimerInterval = null;
 let circuitSecsLeft      = 0;
 let circuitTimerDone     = false;
 
+// Wall-clock anchors so timers survive minimized/throttled tabs
+let targetEndTime        = null;
+let exTargetEndTime      = null;
+let circuitTargetEndTime = null;
+let pauseStartTime       = null;
+
 function breakSecs() {
   return mode === "advanced" ? ADVANCED_BREAK_SECS : BREAK_SECS;
 }
@@ -152,17 +158,19 @@ async function fetchState() {
 // ── Tick ─────────────────────────────────────────────────
 function startTick() {
   clearInterval(tickInterval);
-  tickInterval = setInterval(tick, 1000);
+  targetEndTime = Date.now() + secondsLeft * 1000;
+  tickInterval  = setInterval(tick, 1000);
   renderTimer();
 }
 
 function tick() {
-  secondsLeft = Math.max(0, secondsLeft - 1);
+  const prev  = secondsLeft;
+  secondsLeft = Math.max(0, Math.round((targetEndTime - Date.now()) / 1000));
   renderTimer();
   if (secondsLeft === 0) {
     if (phase === "rest") enterBreak();
     else autoEndBreak();
-  } else if (phase === "rest" && secondsLeft === 5 * 60) {
+  } else if (phase === "rest" && prev > 5 * 60 && secondsLeft <= 5 * 60) {
     if (mode === "advanced") {
       notify("Break in 5 minutes",
         `Circuit: ${circuitExercises?.upper?.name ?? "..."}, ${circuitExercises?.lower?.name ?? "..."}, ${circuitExercises?.core?.name ?? "..."}`);
@@ -371,8 +379,9 @@ function renderCircuitRest() {
 // ── Circuit timer ─────────────────────────────────────────
 function startCircuitTimer(seconds) {
   clearInterval(circuitTimerInterval);
-  circuitSecsLeft  = seconds;
-  circuitTimerDone = false;
+  circuitSecsLeft      = seconds;
+  circuitTargetEndTime = Date.now() + seconds * 1000;
+  circuitTimerDone     = false;
   renderCircuitTimer();
   circuitTimerInterval = setInterval(tickCircuitTimer, 1000);
 }
@@ -383,12 +392,13 @@ function stopCircuitStep() {
 }
 
 function tickCircuitTimer() {
-  circuitSecsLeft = Math.max(0, circuitSecsLeft - 1);
+  const prev      = circuitSecsLeft;
+  circuitSecsLeft = Math.max(0, Math.round((circuitTargetEndTime - Date.now()) / 1000));
   renderCircuitTimer();
 
   const ex   = exerciseForStep(circuitStep);
   const half = Math.ceil((ex?.duration_seconds ?? CIRCUIT_STEP_SECS) / 2);
-  if (ex?.bilateral && circuitSecsLeft === half && !circuitTimerDone) {
+  if (ex?.bilateral && prev > half && circuitSecsLeft <= half && !circuitTimerDone) {
     chimeSwitchSides();
   }
 
@@ -420,8 +430,9 @@ function renderCircuitTimer() {
 // ── Basic exercise countdown ──────────────────────────────
 function startExerciseTimer(seconds) {
   stopExerciseTimer();
-  exSecsLeft = seconds;
-  exDone     = false;
+  exSecsLeft      = seconds;
+  exTargetEndTime = Date.now() + seconds * 1000;
+  exDone          = false;
   renderExerciseTimer();
   exTimerRow.classList.remove("hidden");
   exInterval = setInterval(tickExercise, 1000);
@@ -434,7 +445,7 @@ function stopExerciseTimer() {
 }
 
 function tickExercise() {
-  exSecsLeft = Math.max(0, exSecsLeft - 1);
+  exSecsLeft = Math.max(0, Math.round((exTargetEndTime - Date.now()) / 1000));
   renderExerciseTimer();
   if (exSecsLeft === 0 && !exDone) {
     exDone = true;
@@ -579,6 +590,13 @@ function notify(title, body) {
 // ── Controls ──────────────────────────────────────────────
 function togglePause() {
   if (paused) {
+    // Shift all target end times forward by the duration we were paused
+    const pausedFor = Date.now() - pauseStartTime;
+    if (targetEndTime)        targetEndTime        += pausedFor;
+    if (exTargetEndTime)      exTargetEndTime      += pausedFor;
+    if (circuitTargetEndTime) circuitTargetEndTime += pausedFor;
+    pauseStartTime = null;
+
     paused = false;
     startTick();
     if (mode === "advanced" && phase === "break" && !circuitDone && !circuitTimerInterval) {
@@ -587,7 +605,8 @@ function togglePause() {
     pauseBtn.textContent = "Pause";
     pauseBtn.classList.remove("btn-paused");
   } else {
-    paused = true;
+    paused         = true;
+    pauseStartTime = Date.now();
     clearInterval(tickInterval);
     tickInterval = null;
     if (mode === "advanced") stopCircuitStep();
@@ -642,6 +661,16 @@ pauseBtn.addEventListener("click", togglePause);
 resetBtn.addEventListener("click", resetTimer);
 modeBasicBtn.addEventListener("click",    () => switchMode("basic"));
 modeAdvancedBtn.addEventListener("click", () => switchMode("advanced"));
+
+// Resync display immediately when the window comes back into focus
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden || paused) return;
+  tick();
+  if (phase === "break") {
+    if (mode === "advanced" && !circuitDone) tickCircuitTimer();
+    else tickExercise();
+  }
+});
 
 // ── Boot ──────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", init);
