@@ -4,38 +4,70 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this directory is
 
-`getFit/` is both a project (the 30/5 movement-break timer described below) and an umbrella directory for related fitness tools. Two subdirectories are **independent git repositories with their own GitHub remotes**, nested here on disk only for convenience — getFit's `.gitignore` excludes them so this repo never tracks their contents:
+`getFit/` is both a project (the Movr movement-break timer) and an umbrella directory for related fitness tools. Several subdirectories are **independent git repositories with their own GitHub remotes**, nested here on disk only for convenience — getFit's `.gitignore` excludes them so this repo never tracks their contents:
 
-- `coreFit/` — Flask app for a core/upper-body interval circuit (40s work / 20s rest). Own repo. `cd coreFit && pip install -r requirements.txt && python3 app.py`, serves on http://localhost:5051.
+- `coreFit/` — separate Flask app for an on-demand core/upper-body interval circuit (40s work / 20s rest). Own repo. `cd coreFit && pip install -r requirements.txt && python3 app.py`, serves on http://localhost:5051. Conceptually overlaps with Movr's Advanced mode (both cover core work) but is intentionally a distinct app with a different session model — not a duplicate to be merged away.
 - `stretch/morning-stretch-app/` — Python desktop stretching app. Own repo, own `CLAUDE.md` with detailed run instructions (`launch.sh`/`launch.bat`, `menubar.py`).
 
 Treat each as its own project root — run commands from inside it, never assume changes in one affect the others, and never commit across the boundary (e.g. `git add` from `getFit/`'s repo should never pick up files inside `coreFit/` or `stretch/`).
 
-## Commands (getFit itself)
+## Structure
 
-```bash
-pip install -r requirements.txt
-python3 app.py     # serves on http://localhost:5050 (Windows: python app.py)
+```
+getFit/
+  movr/          ← movement break timer app (Movr)
+  core/
+    core_circuit.md
+  coreFit/       ← separate app, own git repo (see above)
+  stretch/       ← separate app, own git repo (see above)
+  CLAUDE.md
+  README.md
 ```
 
-No test suite, linter, or build step is configured.
+## Movr — Running the App
 
-## Architecture
+```bash
+cd movr
+pip install -r requirements.txt
+python app.py
+# Open http://localhost:5050
+```
 
-Small Flask app (`app.py`) with server-rendered HTML shell (`templates/index.html`) and a vanilla-JS state machine (`static/timer.js`) driving all timer/UI behavior client-side. No database — per-user state lives entirely in the Flask `session` cookie.
+No build step, no test suite, no linter configured.
 
-**State flow:** `app.py`'s `get_session_state()` lazily initializes (or resets, on a new calendar day) a session dict: a shuffled `exercise_order` over all exercises in `exercises.json`, `current_index`, `repeat_count`, `total_breaks`, and `completed_breaks`. Exercises repeat for 3 breaks (`repeat_count`) before `current_index` advances to the next shuffled exercise — this rotation logic lives only in `/api/complete_break`.
+## Movr — Architecture
 
-**API surface** (all read/mutate the session state above):
-- `GET /api/state` — current exercise + progress, used on page load
-- `POST /api/complete_break` — logs a completed break, increments counters, rotates exercise after 3 reps
-- `POST /api/skip_exercise` — advances to next exercise immediately, resets `repeat_count`
-- `GET /api/history` — today's completed breaks list
+Two independent state machines that communicate via REST:
 
-**Client timer** (`static/timer.js`): the 30-minute rest / 5-minute break countdown is a pure client-side `setInterval` loop (`phase` = `"rest"` | `"break"`); the server has no concept of elapsed time or the rest/break phase — it only tracks exercise rotation and break history. Browser Notifications fire on phase transitions if permission was granted. Reset/Pause only affect client-side timer state, not the server session.
+**Server (movr/app.py) — exercise rotation state**
+- Flask session holds the day's exercise order (shuffled on first visit or day rollover), `current_index`, `repeat_count` (0–2), and `completed_breaks` log
+- Each exercise shows for 3 consecutive breaks (`repeat_count >= 3` advances `current_index`)
+- Exercises wrap infinitely; the shuffled `exercise_order` is an index list into `exercises.json`
+- Basic mode routes: `GET /api/state`, `POST /api/complete_break`, `POST /api/skip_exercise`, `GET /api/history`
+- Advanced mode routes: `GET /api/advanced/state`, `POST /api/advanced/complete`
 
-**Exercise data** (`exercises.json`): flat array of objects (`id`, `name`, `category`, `description`, `duration_note`, `icon`). Editing this file changes the exercise pool directly — no migration needed, but note `current_index`/`exercise_order` in any live session reference array positions, so structural edits (reordering/removing) mid-day could desync an existing session until it resets the next day.
+**Advanced mode (movr/app.py) — circuit rotation state**
+- Separate `adv_state` session key holds independent upper/lower/core indices and pass counters
+- First pass through each category is sequential (posture-focused exercises first); subsequent passes are shuffled
+- `POST /api/advanced/complete` advances all three indices and logs the completed circuit
+
+**Client (movr/static/timer.js) — countdown state**
+- Runs entirely in the browser; phase is `"rest"` (30 min) or `"break"` (5 min basic / 7 min advanced)
+- Timer auto-starts in `"rest"` on page load; a page refresh resets the countdown but not the exercise rotation (that lives in the Flask session)
+- Mode (basic/advanced) is persisted in `localStorage`; switching mid-break immediately starts the new mode's exercise timer
+- `completeBreak()` doubles as "start break now" (when `phase !== "break"`) and "mark done" (when `phase === "break"`)
+- Auto-ends break silently if the break timer expires without user action (no server call)
+
+**Advanced circuit timer**
+- Each break runs 3 sets × 3 exercises = 9 steps; each step gets its own 45-second countdown
+- Bilateral exercises have a `bilateral: true` flag in JSON; the circuit timer fires a two-pulse side-switch chime at the halfway point
+- Circuit auto-completes after all 9 steps; server is only called when the user clicks Done
+
+**Data**
+- `movr/exercises.json` — 15 exercises with `id`, `name`, `category` (stretch/strength/cardio/wellness), `description`, `duration_note`, `duration_seconds`, `icon`
+- `movr/exercises_advanced.json` — 90 exercises split into `upper` (30), `lower` (30), `core` (30) arrays; each entry has `id`, `name`, `category`, `description`, `duration_seconds`, `icon`, and optional `bilateral: true`
+- Adding exercises: append to the relevant JSON file; the rotation logic handles any list length automatically
 
 ## Notes
 
-- `app.secret_key = os.urandom(24)` regenerates on every server restart, invalidating all existing sessions (users' in-progress timers/history reset).
+- Movr's `app.secret_key = os.urandom(24)` regenerates on every server restart, invalidating all existing sessions (users' in-progress timers/history reset).

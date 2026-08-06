@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movr — Move Every 30</title>
+  <link rel="stylesheet" href="/static/style.css?v={{ cache_bust }}" />
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>Movr</h1>
+      <p class="subtitle">Move 5 min every 30 min</p>
+    </div>
+    <div class="streak-badge" id="streakBadge">0 breaks today</div>
+  </header>
+
+  <!-- Mode toggle -->
+  <div class="mode-toggle-row">
+    <div class="mode-toggle" id="modeToggle">
+      <button class="mode-btn" id="modeBasicBtn">Basic</button>
+      <button class="mode-btn" id="modeAdvancedBtn">Advanced</button>
+    </div>
+  </div>
+
+  <!-- Notification permission row -->
+  <div class="notif-row">
+    <div class="notif-dot" id="notifDot"></div>
+    <span id="notifText">Requesting notification permission…</span>
+  </div>
+
+  <!-- Break active banner -->
+  <div class="break-banner" id="breakBanner">
+    🟢 Break is active — time to move!
+  </div>
+
+  <!-- Main timer card -->
+  <div class="card">
+
+    <div class="phase-label rest" id="phaseLabel">Rest</div>
+
+    <!-- Ring timer -->
+    <div class="ring-wrap">
+      <div class="ring-outer">
+        <svg class="ring-svg" width="180" height="180" viewBox="0 0 180 180">
+          <circle class="ring-bg"       cx="90" cy="90" r="80" />
+          <circle class="ring-progress" cx="90" cy="90" r="80"
+                  id="ringProgress"
+                  stroke-dasharray="502.65"
+                  stroke-dashoffset="0" />
+        </svg>
+        <div class="ring-center">
+          <div class="timer-label"    id="timerLabel">30:00</div>
+          <div class="timer-sublabel" id="timerSublabel">until next break</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Basic mode: single exercise block ── -->
+    <div class="exercise-block dimmed" id="exerciseBlock">
+      <div class="exercise-header">
+        <span class="exercise-icon" id="exIcon">⏳</span>
+        <div>
+          <div class="exercise-name"     id="exName">Loading…</div>
+          <div class="exercise-category" id="exCategory"></div>
+        </div>
+      </div>
+      <p class="exercise-desc" id="exDesc"></p>
+      <div class="exercise-duration" id="exDuration"></div>
+
+      <!-- Exercise countdown timer -->
+      <div class="ex-timer-row hidden" id="exTimerRow">
+        <span class="ex-timer-clock" id="exTimerLabel">0:00</span>
+        <div class="ex-timer-info">
+          <span class="ex-timer-status" id="exTimerStatus">exercise timer</span>
+        </div>
+      </div>
+
+      <!-- Repeat pips -->
+      <div class="repeat-row">
+        <span class="repeat-label">Sessions</span>
+        <div class="pips">
+          <div class="pip" id="pip1"></div>
+          <div class="pip" id="pip2"></div>
+          <div class="pip" id="pip3"></div>
+        </div>
+        <span class="repeat-label" style="margin-left:4px">of 3</span>
+      </div>
+    </div>
+
+    <!-- ── Advanced mode: circuit view ── -->
+    <div class="circuit-view hidden" id="circuitView">
+      <div class="circuit-meta">
+        <span class="circuit-set-label" id="setLabel">Up Next</span>
+        <div class="circuit-set-pips">
+          <div class="set-pip" id="setPip1"></div>
+          <div class="set-pip" id="setPip2"></div>
+          <div class="set-pip" id="setPip3"></div>
+        </div>
+      </div>
+
+      <div class="circuit-cards" id="circuitCards">
+
+        <div class="circuit-card dimmed" id="cardUpper">
+          <div class="circuit-card-label">Upper Body</div>
+          <div class="circuit-card-content">
+            <span class="circuit-card-icon" id="upperIcon">💪</span>
+            <div class="circuit-card-info">
+              <div class="circuit-card-name" id="upperName">—</div>
+              <div class="circuit-card-desc" id="upperDesc"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="circuit-card dimmed" id="cardLower">
+          <div class="circuit-card-label">Lower Body</div>
+          <div class="circuit-card-content">
+            <span class="circuit-card-icon" id="lowerIcon">🦵</span>
+            <div class="circuit-card-info">
+              <div class="circuit-card-name" id="lowerName">—</div>
+              <div class="circuit-card-desc" id="lowerDesc"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="circuit-card dimmed" id="cardCore">
+          <div class="circuit-card-label">Core</div>
+          <div class="circuit-card-content">
+            <span class="circuit-card-icon" id="coreIcon">⚡</span>
+            <div class="circuit-card-info">
+              <div class="circuit-card-name" id="coreName">—</div>
+              <div class="circuit-card-desc" id="coreDesc"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 45s exercise sub-timer (shown during break) -->
+      <div class="ex-timer-row hidden" id="exTimerRowAdv">
+        <span class="ex-timer-clock" id="exTimerLabelAdv">0:45</span>
+        <div class="ex-timer-info">
+          <span class="ex-timer-status" id="exTimerStatusAdv">exercise timer</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Action buttons -->
+    <div class="btn-row">
+      <button class="btn btn-primary" id="mainBtn">Start Break Now</button>
+      <button class="btn btn-ghost"   id="skipBtn">Skip Exercise</button>
+    </div>
+    <div class="btn-row btn-row-secondary">
+      <button class="btn btn-ghost" id="pauseBtn">Pause</button>
+      <button class="btn btn-ghost btn-danger" id="resetBtn">Reset</button>
+    </div>
+
+  </div>
+
+  <!-- Today's history -->
+  <div class="history-card">
+    <div class="history-title">Today's Breaks</div>
+    <div class="history-empty" id="historyEmpty">No breaks completed yet — you've got this!</div>
+    <div class="history-list"  id="historyList" style="display:none"></div>
+  </div>
+
+  <script src="/static/timer.js?v={{ cache_bust }}"></script>
+</body>
+</html>
