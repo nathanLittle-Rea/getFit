@@ -6,3 +6,8 @@ __pycache__/
 dist/
 build/
 .DS_Store
+
+# Independent nested projects with their own git repos/remotes —
+# not part of getFit's own history.
+/coreFit/
+/stretch/

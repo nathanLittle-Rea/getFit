@@ -2,7 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Commands
+## What this directory is
+
+`getFit/` is both a project (the 30/5 movement-break timer described below) and an umbrella directory for related fitness tools. Two subdirectories are **independent git repositories with their own GitHub remotes**, nested here on disk only for convenience — getFit's `.gitignore` excludes them so this repo never tracks their contents:
+
+- `coreFit/` — Flask app for a core/upper-body interval circuit (40s work / 20s rest). Own repo. `cd coreFit && pip install -r requirements.txt && python3 app.py`, serves on http://localhost:5051.
+- `stretch/morning-stretch-app/` — Python desktop stretching app. Own repo, own `CLAUDE.md` with detailed run instructions (`launch.sh`/`launch.bat`, `menubar.py`).
+
+Treat each as its own project root — run commands from inside it, never assume changes in one affect the others, and never commit across the boundary (e.g. `git add` from `getFit/`'s repo should never pick up files inside `coreFit/` or `stretch/`).
+
+## Commands (getFit itself)
 
 ```bash
 pip install -r requirements.txt
@@ -29,5 +38,4 @@ Small Flask app (`app.py`) with server-rendered HTML shell (`templates/index.htm
 
 ## Notes
 
-- `stretch/` in this directory is an unrelated sibling project's files (see `../CLAUDE.md` for the workspace layout) — not part of getFit.
 - `app.secret_key = os.urandom(24)` regenerates on every server restart, invalidating all existing sessions (users' in-progress timers/history reset).
