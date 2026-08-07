@@ -8,9 +8,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `coreFit/` — separate Flask app for an on-demand core/upper-body interval circuit (40s work / 20s rest). Own repo. `cd coreFit && pip install -r requirements.txt && python3 app.py`, serves on http://localhost:5051. Conceptually overlaps with Movr's Advanced mode (both cover core work) but is intentionally a distinct app with a different session model — not a duplicate to be merged away.
 - `bootyFit/` — separate Flask app for an on-demand glute/lower-core interval circuit, same 40s work / 20s rest model as coreFit. Own repo. `cd bootyFit && pip install -r requirements.txt && python3 app.py`, serves on http://localhost:5052. Architecturally identical to coreFit (same app.py structure, streak persistence pattern) — just different exercise content and a distinct accent color.
+- `stayFit/` — separate Flask app that combines coreFit and bootyFit into one app with a mode toggle (both exercise libraries, a shared day streak, and separate per-mode lifetime counters). Own repo. `cd stayFit && pip install -r requirements.txt && python3 app.py`, serves on http://localhost:5053. coreFit and bootyFit remain separate standalone apps/repos by design — stayFit is a third, additional option, not a replacement.
 - `stretch/morning-stretch-app/` — Python desktop stretching app. Own repo, own `CLAUDE.md` with detailed run instructions (`launch.sh`/`launch.bat`, `menubar.py`).
 
-Treat each as its own project root — run commands from inside it, never assume changes in one affect the others, and never commit across the boundary (e.g. `git add` from `getFit/`'s repo should never pick up files inside `coreFit/`, `bootyFit/`, or `stretch/`).
+Treat each as its own project root — run commands from inside it, never assume changes in one affect the others, and never commit across the boundary (e.g. `git add` from `getFit/`'s repo should never pick up files inside `coreFit/`, `bootyFit/`, `stayFit/`, or `stretch/`).
 
 ## Structure
 
@@ -21,6 +22,7 @@ getFit/
     core_circuit.md
   coreFit/       ← separate app, own git repo (see above)
   bootyFit/      ← separate app, own git repo (see above)
+  stayFit/       ← separate app, own git repo (see above)
   stretch/       ← separate app, own git repo (see above)
   CLAUDE.md
   README.md
